@@ -50,5 +50,3 @@ test:
 production:
   <<: *default
   database: aldea_production
-  username: aldea
-  password: <%= ENV['ALDEA_DATABASE_PASSWORD'] %>
