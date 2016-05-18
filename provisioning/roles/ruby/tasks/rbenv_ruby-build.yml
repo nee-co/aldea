@@ -1,0 +1,20 @@
+- name: Install rbenv
+  git:
+    repo: https://github.com/sstephenson/rbenv.git
+    dest: ~/.rbenv/
+
+- name: Setting rbenv path
+  lineinfile:
+    dest: ~/.bashrc
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  with_items:
+    -  regexp: 'export PATH="\$HOME/.rbenv/bin:\$PATH"'
+       line: export PATH="$HOME/.rbenv/bin:$PATH"
+    -  regexp: 'eval "\$\(rbenv init -\)\"'
+       line: eval "$(rbenv init -)"
+
+- name: Install ruby-build
+  git:
+    repo: https://github.com/sstephenson/ruby-build.git
+    dest: ~/.rbenv/plugins/ruby-build/

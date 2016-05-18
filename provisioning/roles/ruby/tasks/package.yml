@@ -1,0 +1,19 @@
+- name: Install package from building ruby
+  yum: name={{ item }} state=latest
+  with_items:
+    - autoconf
+    - gdbm-devel
+    - ncurses-devel
+    - libdb-devel
+    - libffi-devel
+    - openssl-devel
+    - libyaml-devel
+    - readline-devel
+    - tk-devel
+    - procps
+    - gcc
+    - gcc-c++
+    - rubygems-devel
+    - libxml2
+    - libxslt-devel
+    - git
