@@ -1,9 +1,8 @@
 Vagrant.configure(2) do |config|
 
   config.vm.box_check_update = false
-  config.vm.box = "dev"
-  # config.vm.box = "bento/centos-7.2"
-  config.vm.network "private_network", ip: (ENV['NEECO_VM_IP'] || "1.1.1.1")
+  config.vm.box = "bento/centos-7.2"
+  config.vm.network "private_network", ip: (ENV['NEECO_VM_IP'] || "11.11.11.11")
 
   # https://github.com/mitchellh/vagrant/issues/6858
   config.vm.provision :shell, inline: "rpm --query ansible || for i in epel-release ansible1.9; do yum --quiet --assumeyes install $i; done"
