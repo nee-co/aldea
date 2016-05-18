@@ -1,0 +1,8 @@
+---
+- name: installs all components
+  hosts: localhost
+  connection: local
+  roles:
+    - common
+    - rbenv
+    - mariadb
