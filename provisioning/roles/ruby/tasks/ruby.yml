@@ -1,0 +1,13 @@
+- name: Check ruby installed
+  shell: bash -lc "rbenv versions | grep -w {{ ruby_version }}"
+  register: ruby_installed
+  ignore_errors: yes
+  changed_when: not ruby_installed.stdout
+
+- name: Install Ruby
+  shell: bash -lc "{{ item }}"
+  when: not ruby_installed.stdout
+  with_items:
+    - rbenv install -v {{ ruby_version }}
+    - rbenv rehash
+    - rbenv global {{ ruby_version }}

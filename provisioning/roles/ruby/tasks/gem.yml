@@ -1,0 +1,5 @@
+- name: Setting Gem
+  copy: src=gemrc dest=~/.gemrc
+
+- name: install bundler
+  gem: name=bundler user_install=no

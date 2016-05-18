@@ -1,0 +1,16 @@
+---
+# install yum pachages from building ruby
+- include: package.yml
+  become: yes
+
+# setting rbenv and ruby-build
+- include: rbenv_ruby-build.yml
+  become: no
+
+# install ruby
+- include: ruby.yml
+  become: no
+
+# setting gem
+- include: gem.yml
+  become: no
