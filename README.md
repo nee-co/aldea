@@ -47,7 +47,7 @@ $ git config --global user.email "Bitbucketに設定したメールアドレス"
 
 ```
 $ git clone git@bitbucket.org:<ユーザ名>/aldea.git
-$ cd myh2o
+$ cd aldea
 $ git remote add blessed git@bitbucket.org:nhac/aldea.git
 $ git remote update
 $ vagrant up
