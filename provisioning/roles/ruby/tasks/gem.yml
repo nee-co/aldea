@@ -2,4 +2,4 @@
   copy: src=gemrc dest=~/.gemrc
 
 - name: install bundler
-  gem: name=bundler user_install=no
+  gem: name=bundler executable=~/.rbenv/shims/gem user_install=no
