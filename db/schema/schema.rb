@@ -1,0 +1,78 @@
+create_table "ar_internal_metadata", collate: "utf8_general_ci", comment: "AR_メタデータ" do |t|
+  t.varchar "key", primary_key: true, comment: "キー"
+  t.varchar "value", null: true, comment: "バリュー"
+
+  t.datetime "created_at", null: true, comment: "作成日時"
+  t.datetime "updated_at", null: true, comment: "最終更新日時"
+end
+
+create_table "comments", collate: "utf8_general_ci", comment: "コメント" do |t|
+  t.int "id", primary_key: true, extra: "auto_increment", comment: "ID"
+  t.varchar "body", comment: "コメント内容"
+  t.int "event_id", comment: "イベントID"
+  t.int "user_id", comment: "ユーザーID"
+  t.datetime "posted_at", comment: "投稿日時"
+
+  t.datetime "created_at", null: true, comment: "作成日時"
+  t.datetime "updated_at", null: true, comment: "最終更新日時"
+
+  t.foreign_key "user_id", reference: "users", reference_column: "id"
+  t.foreign_key "event_id", reference: "events", reference_column: "id"
+end
+
+create_table "entries", collate: "utf8_general_ci", comment: "参加" do |t|
+  t.int "id", primary_key: true, extra: "auto_increment", comment: "ID"
+  t.int "event_id", comment: "イベントID"
+  t.int "user_id", comment: "ユーザーID"
+
+  t.datetime "created_at", null: true, comment: "作成日時"
+  t.datetime "updated_at", null: true, comment: "最終更新日時"
+
+  t.foreign_key "user_id", reference: "users", reference_column: "id"
+  t.foreign_key "event_id", reference: "events", reference_column: "id"
+end
+
+create_table "events", collate: "utf8_general_ci", comment: "イベント" do |t|
+  t.int "id", primary_key: true, extra: "auto_increment", comment: "ID"
+  t.varchar "title", comment: "タイトル"
+  t.int "register_id", comment: "登録ユーザーID"
+  t.datetime "registered_at", comment: "登録日時"
+  t.datetime "started_at", null: true, comment: "開始日時"
+  t.datetime "ended_at", null: true, comment: "終了日時"
+  t.varchar "venue", null: true, comment: "会場"
+  t.int "entry_upper_limit", null: true, comment: "人数上限"
+  t.int "status", default: 0, comment: "ステータス(0:非公開, 1:公開, 2:満員, 3:終了, 9:中止)"
+
+  t.datetime "created_at", null: true, comment: "作成日時"
+  t.datetime "updated_at", null: true, comment: "最終更新日時"
+
+  t.foreign_key "register_id", reference: "users", reference_column: "id"
+end
+
+create_table "events_tags", collate: "utf8_general_ci", comment: "イベント-タグ" do |t|
+  t.int "event_id", comment: "イベントID"
+  t.int "tag_id", comment: "タグID"
+
+  t.foreign_key "event_id", reference: "events", reference_column: "id"
+  t.foreign_key "tag_id", reference: "tags", reference_column: "id"
+end
+
+create_table "schema_migrations", collate: "utf8_general_ci", comment: "" do |t|
+  t.varchar "version", primary_key: true
+end
+
+create_table "tags", collate: "utf8_general_ci", comment: "タグ" do |t|
+  t.int "id", primary_key: true, extra: "auto_increment", comment: "ID"
+  t.varchar "name", comment: "タグ名"
+
+  t.datetime "created_at", null: true, comment: "作成日時"
+  t.datetime "updated_at", null: true, comment: "最終更新日時"
+end
+
+create_table "users", collate: "utf8_general_ci", comment: "ユーザー(仮)" do |t|
+  t.int "id", primary_key: true, extra: "auto_increment", comment: "ID"
+  t.varchar "name", comment: "ユーザー名"
+
+  t.datetime "created_at", null: true, comment: "作成日時"
+  t.datetime "updated_at", null: true, comment: "最終更新日時"
+end
