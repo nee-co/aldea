@@ -48,6 +48,13 @@ GEM
     byebug (9.0.4)
     coderay (1.1.1)
     concurrent-ruby (1.0.2)
+    convergence (0.1.6)
+      diff-lcs
+      diffy
+      mysql2
+      slop (~> 3.6)
+    diff-lcs (1.2.5)
+    diffy (3.1.0)
     erubis (2.7.0)
     ffi (1.9.10)
     formatador (0.2.5)
@@ -184,6 +191,7 @@ DEPENDENCIES
   annotate
   awesome_print
   byebug
+  convergence
   guard-rubocop
   hirb
   hirb-unicode
