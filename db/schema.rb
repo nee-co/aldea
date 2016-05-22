@@ -14,12 +14,12 @@
 ActiveRecord::Schema.define(version: 0) do
 
   create_table "comments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT", comment: "コメント" do |t|
-    t.string   "body",       null: false, comment: "コメント内容"
-    t.integer  "event_id",   null: false, comment: "イベントID"
-    t.integer  "user_id",    null: false, comment: "ユーザーID"
-    t.datetime "posted_at",  null: false, comment: "投稿日時"
-    t.datetime "created_at",              comment: "作成日時"
-    t.datetime "updated_at",              comment: "最終更新日時"
+    t.text     "body",       limit: 65535, null: false, comment: "コメント内容"
+    t.integer  "event_id",                 null: false, comment: "イベントID"
+    t.integer  "user_id",                  null: false, comment: "ユーザーID"
+    t.datetime "posted_at",                null: false, comment: "投稿日時"
+    t.datetime "created_at",                            comment: "作成日時"
+    t.datetime "updated_at",                            comment: "最終更新日時"
     t.index ["event_id"], name: "comments_event_id_fk", using: :btree
     t.index ["user_id"], name: "comments_user_id_fk", using: :btree
   end

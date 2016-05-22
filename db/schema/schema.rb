@@ -7,7 +7,7 @@ end
 
 create_table "comments", collate: "utf8_general_ci", comment: "コメント" do |t|
   t.int "id", primary_key: true, extra: "auto_increment", comment: "ID"
-  t.varchar "body", comment: "コメント内容"
+  t.text "body", comment: "コメント内容"
   t.int "event_id", comment: "イベントID"
   t.int "user_id", comment: "ユーザーID"
   t.datetime "posted_at", comment: "投稿日時"
