@@ -25,6 +25,7 @@ create_table "entries", collate: "utf8_general_ci", comment: "参加" do |t|
   t.datetime "created_at", null: true, comment: "作成日時"
   t.datetime "updated_at", null: true, comment: "最終更新日時"
 
+  t.index ["event_id", "user_id"], name: "index_entries_on_event_id_user_id", unique: true
   t.foreign_key "user_id", reference: "users", reference_column: "id", name: "entries_user_id_fk"
   t.foreign_key "event_id", reference: "events", reference_column: "id", name: "entries_event_id_fk"
 end
@@ -49,8 +50,9 @@ create_table "events_tags", collate: "utf8_general_ci", comment: "イベント-�
   t.int "event_id", comment: "イベントID"
   t.int "tag_id", comment: "タグID"
 
-  t.foreign_key "event_id", reference: "events", reference_column: "id", name: "events_tags_event_id_fk"
+  t.index ["event_id", "tag_id"], name: "index_events_tags_on_event_id_tag_id", unique: true
   t.foreign_key "tag_id", reference: "tags", reference_column: "id", name: "events_tags_tag_id_fk"
+  t.foreign_key "event_id", reference: "events", reference_column: "id", name: "events_tags_event_id_fk"
 end
 
 create_table "schema_migrations", collate: "utf8_general_ci", comment: "" do |t|

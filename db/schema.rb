@@ -29,7 +29,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.integer  "user_id",    null: false, comment: "ユーザーID"
     t.datetime "created_at",              comment: "作成日時"
     t.datetime "updated_at",              comment: "最終更新日時"
-    t.index ["event_id"], name: "entries_event_id_fk", using: :btree
+    t.index ["event_id", "user_id"], name: "index_entries_on_event_id_user_id", unique: true, using: :btree
     t.index ["user_id"], name: "entries_user_id_fk", using: :btree
   end
 
@@ -50,7 +50,7 @@ ActiveRecord::Schema.define(version: 0) do
   create_table "events_tags", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT", comment: "イベント-タグ" do |t|
     t.integer "event_id", null: false, comment: "イベントID"
     t.integer "tag_id",   null: false, comment: "タグID"
-    t.index ["event_id"], name: "events_tags_event_id_fk", using: :btree
+    t.index ["event_id", "tag_id"], name: "index_events_tags_on_event_id_tag_id", unique: true, using: :btree
     t.index ["tag_id"], name: "events_tags_tag_id_fk", using: :btree
   end
 
