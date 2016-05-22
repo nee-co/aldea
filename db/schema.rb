@@ -18,8 +18,8 @@ ActiveRecord::Schema.define(version: 0) do
     t.integer  "event_id",                 null: false, comment: "イベントID"
     t.integer  "user_id",                  null: false, comment: "ユーザーID"
     t.datetime "posted_at",                null: false, comment: "投稿日時"
-    t.datetime "created_at",                            comment: "作成日時"
-    t.datetime "updated_at",                            comment: "最終更新日時"
+    t.datetime "created_at",                            comment: "レコード作成日時"
+    t.datetime "updated_at",                            comment: "レコード更新日時"
     t.index ["event_id"], name: "comments_event_id_fk", using: :btree
     t.index ["user_id"], name: "comments_user_id_fk", using: :btree
   end
@@ -27,8 +27,8 @@ ActiveRecord::Schema.define(version: 0) do
   create_table "entries", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT", comment: "参加" do |t|
     t.integer  "event_id",   null: false, comment: "イベントID"
     t.integer  "user_id",    null: false, comment: "ユーザーID"
-    t.datetime "created_at",              comment: "作成日時"
-    t.datetime "updated_at",              comment: "最終更新日時"
+    t.datetime "created_at",              comment: "レコード作成日時"
+    t.datetime "updated_at",              comment: "レコード更新日時"
     t.index ["event_id", "user_id"], name: "index_entries_on_event_id_user_id", unique: true, using: :btree
     t.index ["user_id"], name: "entries_user_id_fk", using: :btree
   end
@@ -43,8 +43,8 @@ ActiveRecord::Schema.define(version: 0) do
     t.string   "venue",                                                    comment: "会場"
     t.integer  "entry_upper_limit",                                        comment: "人数上限"
     t.integer  "status",                          default: 0, null: false, comment: "ステータス(0:非公開, 1:公開, 2:満員, 3:終了, 9:中止)"
-    t.datetime "created_at",                                               comment: "作成日時"
-    t.datetime "updated_at",                                               comment: "最終更新日時"
+    t.datetime "created_at",                                               comment: "レコード作成日時"
+    t.datetime "updated_at",                                               comment: "レコード更新日時"
     t.index ["register_id"], name: "events_register_id_fk", using: :btree
   end
 
@@ -57,14 +57,14 @@ ActiveRecord::Schema.define(version: 0) do
 
   create_table "tags", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT", comment: "タグ" do |t|
     t.string   "name",       null: false, comment: "タグ名"
-    t.datetime "created_at",              comment: "作成日時"
-    t.datetime "updated_at",              comment: "最終更新日時"
+    t.datetime "created_at",              comment: "レコード作成日時"
+    t.datetime "updated_at",              comment: "レコード更新日時"
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT", comment: "ユーザー(仮)" do |t|
     t.string   "name",       null: false, comment: "ユーザー名"
-    t.datetime "created_at",              comment: "作成日時"
-    t.datetime "updated_at",              comment: "最終更新日時"
+    t.datetime "created_at",              comment: "レコード作成日時"
+    t.datetime "updated_at",              comment: "レコード更新日時"
   end
 
   add_foreign_key "comments", "events", name: "comments_event_id_fk"
