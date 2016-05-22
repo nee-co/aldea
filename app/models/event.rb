@@ -4,6 +4,7 @@
 #
 #  id                :integer          not null, primary key
 #  title             :string(255)      not null
+#  body              :text(65535)      not null
 #  register_id       :integer          not null
 #  registered_at     :datetime         not null
 #  started_at        :datetime

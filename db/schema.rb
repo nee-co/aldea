@@ -34,16 +34,17 @@ ActiveRecord::Schema.define(version: 0) do
   end
 
   create_table "events", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT" do |t|
-    t.string   "title",                         null: false, comment: "タイトル"
-    t.integer  "register_id",                   null: false, comment: "登録ユーザーID"
-    t.datetime "registered_at",                 null: false, comment: "登録日時"
-    t.datetime "started_at",                                 comment: "開始日時"
-    t.datetime "ended_at",                                   comment: "終了日時"
-    t.string   "venue",                                      comment: "会場"
-    t.integer  "entry_upper_limit",                          comment: "人数上限"
-    t.integer  "status",            default: 0, null: false, comment: "ステータス(0:非公開, 1:公開, 2:満員, 3:終了, 9:中止)"
-    t.datetime "created_at",                                 comment: "作成日時"
-    t.datetime "updated_at",                                 comment: "最終更新日時"
+    t.string   "title",                                       null: false, comment: "タイトル"
+    t.text     "body",              limit: 65535,             null: false, comment: "内容"
+    t.integer  "register_id",                                 null: false, comment: "登録ユーザーID"
+    t.datetime "registered_at",                               null: false, comment: "登録日時"
+    t.datetime "started_at",                                               comment: "開始日時"
+    t.datetime "ended_at",                                                 comment: "終了日時"
+    t.string   "venue",                                                    comment: "会場"
+    t.integer  "entry_upper_limit",                                        comment: "人数上限"
+    t.integer  "status",                          default: 0, null: false, comment: "ステータス(0:非公開, 1:公開, 2:満員, 3:終了, 9:中止)"
+    t.datetime "created_at",                                               comment: "作成日時"
+    t.datetime "updated_at",                                               comment: "最終更新日時"
     t.index ["register_id"], name: "events_register_id_fk", using: :btree
   end
 
