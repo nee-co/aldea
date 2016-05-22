@@ -37,7 +37,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.string   "title",                                       null: false, comment: "タイトル"
     t.text     "body",              limit: 65535,             null: false, comment: "内容"
     t.integer  "register_id",                                 null: false, comment: "登録ユーザーID"
-    t.datetime "registered_at",                               null: false, comment: "登録日時"
+    t.datetime "published_at",                                             comment: "公開日時"
     t.datetime "started_at",                                               comment: "開始日時"
     t.datetime "ended_at",                                                 comment: "終了日時"
     t.string   "venue",                                                    comment: "会場"
