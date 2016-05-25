@@ -6,6 +6,7 @@ gem 'mysql2', '>= 0.3.18', '< 0.5'
 gem 'puma', '~> 3.0'
 gem 'jbuilder', '~> 2.0'
 gem 'convergence'
+gem 'rack-cors'
 
 group :development, :test do
   gem 'byebug', platform: :mri
