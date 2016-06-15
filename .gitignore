@@ -18,5 +18,7 @@
 
 .vagrant
 
+.DS_Store
+
 config/database.yml
 config/dev_database.yml
