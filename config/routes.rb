@@ -6,7 +6,7 @@ Rails.application.routes.draw do
     member do
       put :public
       put :join
-      post :comment
+      resources :comments, only: [:create]
     end
   end
 end
