@@ -45,3 +45,8 @@ CSV.foreach('db/seeds/entries.csv') do |list|
     user_id: list[1].to_i
   )
 end
+
+# Create Tags
+CSV.foreach('db/seeds/tags.csv') do |list|
+  Tag.create(name: list[0])
+end
