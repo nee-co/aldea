@@ -50,3 +50,8 @@ end
 CSV.foreach('db/seeds/tags.csv') do |list|
   Tag.create(name: list[0])
 end
+
+# Create Events_tags
+CSV.foreach('db/seeds/events_tags.csv') do |list|
+  Event.find(list[0]).tags << Tag.find(list[1])
+end
