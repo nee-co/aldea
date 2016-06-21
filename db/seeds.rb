@@ -8,6 +8,11 @@
 
 require 'csv'
 
+# Create Users
+CSV.foreach('db/seeds/users.csv') do |list|
+  User.create(name: list[0])
+end
+
 # Create Events
 CSV.foreach('db/seeds/events.csv') do |list|
   Event.create(
