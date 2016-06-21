@@ -27,3 +27,13 @@ CSV.foreach('db/seeds/events.csv') do |list|
     status: list[8].to_i
   )
 end
+
+# Create Comments
+CSV.foreach('db/seeds/comments.csv') do |list|
+  Comment.create(
+    body: list[0],
+    event_id: list[1].to_i,
+    user_id: list[2].to_i,
+    posted_at: list[3]
+  )
+end
