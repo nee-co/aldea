@@ -80,9 +80,10 @@ GEM
     jbuilder (2.5.0)
       activesupport (>= 3.0.0, < 5.1)
       multi_json (~> 1.2)
-    listen (3.0.8)
+    listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
+      ruby_dep (~> 1.2)
     loofah (2.0.3)
       nokogiri (>= 1.5.9)
     lumberjack (1.0.10)
@@ -159,6 +160,7 @@ GEM
       rainbow (>= 1.99.1, < 3.0)
       ruby-progressbar (~> 1.7)
     ruby-progressbar (1.8.1)
+    ruby_dep (1.3.1)
     shellany (0.0.1)
     slop (3.6.0)
     spring (1.7.2)
@@ -193,19 +195,19 @@ DEPENDENCIES
   guard-rubocop
   hirb
   hirb-unicode
-  jbuilder (~> 2.0)
-  listen (~> 3.0.5)
+  jbuilder
+  listen
   mysql2 (>= 0.3.18, < 0.5)
   pry
   pry-byebug
   pry-doc
   pry-rails
-  puma (~> 3.0)
+  puma
   rack-cors
   rails (>= 5.0.0)
   rubocop
   spring
-  spring-watcher-listen (~> 2.0.0)
+  spring-watcher-listen
 
 BUNDLED WITH
    1.12.5

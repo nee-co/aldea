@@ -3,8 +3,8 @@ source 'https://rubygems.org'
 gem 'rails', '>= 5.0.0'
 
 gem 'mysql2', '>= 0.3.18', '< 0.5'
-gem 'puma', '~> 3.0'
-gem 'jbuilder', '~> 2.0'
+gem 'puma'
+gem 'jbuilder'
 gem 'convergence'
 gem 'rack-cors'
 
@@ -22,8 +22,8 @@ group :development, :test do
 end
 
 group :development do
-  gem 'listen', '~> 3.0.5'
+  gem 'listen'
   gem 'spring'
-  gem 'spring-watcher-listen', '~> 2.0.0'
+  gem 'spring-watcher-listen'
   gem 'annotate'
 end
