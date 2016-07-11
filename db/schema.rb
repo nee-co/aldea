@@ -61,17 +61,8 @@ ActiveRecord::Schema.define(version: 0) do
     t.datetime "updated_at",              comment: "レコード更新日時"
   end
 
-  create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT", comment: "ユーザー(仮)" do |t|
-    t.string   "name",       null: false, comment: "ユーザー名"
-    t.datetime "created_at",              comment: "レコード作成日時"
-    t.datetime "updated_at",              comment: "レコード更新日時"
-  end
-
   add_foreign_key "comments", "events", name: "comments_event_id_fk"
-  add_foreign_key "comments", "users", name: "comments_user_id_fk"
   add_foreign_key "entries", "events", name: "entries_event_id_fk"
-  add_foreign_key "entries", "users", name: "entries_user_id_fk"
-  add_foreign_key "events", "users", column: "register_id", name: "events_register_id_fk"
   add_foreign_key "events_tags", "events", name: "events_tags_event_id_fk"
   add_foreign_key "events_tags", "tags", name: "events_tags_tag_id_fk"
 end
