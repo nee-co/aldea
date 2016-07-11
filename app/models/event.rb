@@ -15,10 +15,6 @@
 #  created_at        :datetime
 #  updated_at        :datetime
 #
-# Foreign Keys
-#
-#  events_register_id_fk  (register_id => users.id)
-#
 
 class Event < ApplicationRecord
   has_many :comments, dependent: :delete_all
