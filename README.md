@@ -2,9 +2,9 @@
 ### 共有事項
 |         概要        |   イベント管理APIサーバー |
 |:-------------------:|:-------------------------:|
-|          OS         |          cnetos7.2        |
+|          OS         |         CentOS (7.2)      |
 |       使用言語      |         Ruby (2.3.1)      |
-|  使用フレームワーク | Ruby on Rails (5.0.0.rc1) |
+|  使用フレームワーク |    Ruby on Rails (5.0.0)  |
 |    バージョン管理   |             Git           |
 |    Gitホスティング  |          Bitbucket        |
 |      タスク管理     |      Backlog or Jira      |
@@ -19,7 +19,7 @@
 - Ruby on Rails
 - REST
 - JSON
-- MariaDB(Mysql)
+- MariaDB(MySQL)
 
 ---
 
