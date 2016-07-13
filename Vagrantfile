@@ -6,7 +6,7 @@ Vagrant.configure(2) do |config|
   config.vm.box = "bento/centos-7.2"
 
   config.vm.define "aldea" do |machine|
-    machine.vm.network "private_network", ip: (ENV['ALDEA_VM_IP'] || "11.11.11.11"), virtualbox__intnet: "nee-co_intnet"
+    machine.vm.network "private_network", ip: (ENV['ALDEA_VM_IP'] || "11.11.11.11")
 
     machine.vm.provision :ansible_local, playbook: "./provisioning/setup.yml"
 
