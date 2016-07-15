@@ -7,6 +7,7 @@ gem 'puma'
 gem 'jbuilder'
 gem 'convergence'
 gem 'rack-cors'
+gem 'flexirest'
 
 group :development, :test do
   gem 'byebug', platform: :mri
