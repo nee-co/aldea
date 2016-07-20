@@ -33,4 +33,9 @@ class Event < ApplicationRecord
     date = started_at.to_date
     where(started_at: date.beginning_of_day..date.end_of_day)
   }
+
+  scope :ended_between, -> ended_at {
+    date = ended_at.to_date
+    where(ended_at: date.beginning_of_day..date.end_of_day)
+  }
 end
