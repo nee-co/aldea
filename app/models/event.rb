@@ -24,4 +24,8 @@ class Event < ApplicationRecord
   scope :title_like, -> word {
     where("title like '%" + word + "%'")
   }
+
+  scope :key_word_like, -> word {
+    joins(:tags).merge(Tag.name_like(word).or(Event.title_like(word))).uniq
+  }
 end
