@@ -10,4 +10,8 @@
 
 class Tag < ApplicationRecord
   has_and_belongs_to_many :events
+
+  scope :name_like,-> word {
+    where("name like '%" + word + "%'")
+  }
 end
