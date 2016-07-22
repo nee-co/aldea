@@ -26,7 +26,7 @@ class Event < ApplicationRecord
   }
 
   scope :key_word_like, -> word {
-    joins(:tags).merge(Tag.name_like(word).or(Event.title_like(word))).uniq
+    joins(:tags).merge(Tag.name_like(word).or(Event.title_like(word)))
   }
 
   scope :started_between, -> started_at {
