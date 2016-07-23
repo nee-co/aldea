@@ -10,4 +10,8 @@
 
 class Tag < ApplicationRecord
   has_and_belongs_to_many :events
+
+  scope :name_like,-> word {
+    where(Tag.arel_table[:name].matches("%#{word}%"))
+  }
 end
