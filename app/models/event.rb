@@ -22,7 +22,7 @@ class Event < ApplicationRecord
   has_and_belongs_to_many :tags
 
   scope :title_like, -> word {
-    where("title like '%" + word + "%'")
+    where(Event.arel_table[:title].matches("%#{word}%"))
   }
 
   scope :keyword_like, -> word {
