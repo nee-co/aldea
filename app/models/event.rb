@@ -31,7 +31,7 @@ class Event < ApplicationRecord
 
   scope :started_between, -> started_at {
     date = started_at.to_date
-    where(started_at: date.beginning_of_day..date.end_of_day)
+    where(Event.arel_table[:started_at].in((date.beginning_of_day)..(date.end_of_day)))
   }
 
   scope :ended_between, -> ended_at {
