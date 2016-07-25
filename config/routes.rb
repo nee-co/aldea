@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
-  resources :events, { format: 'json' } do
+  resources :events, { format: 'json', except: [:index] } do
     collection do
       get :search
+      get "", action: :search
     end
     member do
       put :public
