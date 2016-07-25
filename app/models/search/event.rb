@@ -8,7 +8,7 @@ class Search::Event
     results = results.keyword_like(keyword) if keyword.present?
     results = results.started_between(started_at) if started_at.present?
     results = results.ended_between(ended_at) if ended_at.present?
-    results
+    results.uniq
   end
 end
 
