@@ -33,7 +33,9 @@ class EventsController < ApplicationController
   # GET /events/search?keyword=Ruby&started_at=20160710&ended_at=20160710
   def search
     search = Search::Event.new(keyword: params[:keyword], started_at: params[:started_at], ended_at: params[:ended_at])
-    @events = search.matches
+    @page = params[:page]
+    @per = params[:per]
+    @events = search.matches.page(@page).per(@per)
   end
 
   private

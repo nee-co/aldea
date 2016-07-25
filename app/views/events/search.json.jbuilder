@@ -1,3 +1,5 @@
+json.page @page
+json.per @per
 json.total_count @events.size
 json.events(@events) do |event|
   json.title event.title
