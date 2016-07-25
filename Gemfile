@@ -8,6 +8,7 @@ gem 'jbuilder'
 gem 'convergence'
 gem 'rack-cors'
 gem 'flexirest'
+gem 'kaminari'
 
 group :development, :test do
   gem 'byebug', platform: :mri
