@@ -7,3 +7,4 @@
     - common
     - rbenv
     - mariadb
+    - docker
