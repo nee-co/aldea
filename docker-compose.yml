@@ -26,4 +26,3 @@ services:
       - database
     volumes_from:
       - datastore
-
