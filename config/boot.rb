@@ -6,7 +6,7 @@ require 'rails/commands/server'
 
 module DefaultOptions
   def default_options
-    super.merge!(Host: '0.0.0.0', Port: ENV['ALDEA_PORT'])
+    super.merge!(Host: '0.0.0.0', Port: ENV['ALDEA_PORT'] || 3000)
   end
 end
 
