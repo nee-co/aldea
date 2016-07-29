@@ -13,6 +13,7 @@ services:
       - datastore
   application:
     build: .
+    image: aldea-application
     environment:
       - ALDEA_PORT=3000
       - ALDEA_DATABASE_HOST=database
