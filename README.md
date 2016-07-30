@@ -56,9 +56,8 @@ $ vagrant ssh
 ```
 vagrant> cd /vagrant
 vagrant> bundle install
-vagrant> cp config/database.yml.sample config/database.yml
-vagrant> RAILS_ENV=development bundle exec rake db:create
-vagrant> RAILS_ENV=development bundle exec rake db:migrate
+vagrant> RAILS_ENV=development bundle exec rails db:create
+vagrant> RAILS_ENV=development bundle exec rails db:migrate
 vagrant> RAILS_ENV=development bundle exec rails server
 ```
 
