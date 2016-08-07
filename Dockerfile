@@ -1,7 +1,7 @@
 FROM ruby:2.3.1-alpine
 MAINTAINER Nee-co
 ENV RAILS_ENV=production
-RUN apk --no-cache --update add mariadb-dev tzdata && \
+RUN apk add --no-cache --update mariadb-dev tzdata && \
     apk add --no-cache --virtual build-dependencies \
     build-base \
     libxml2-dev \
