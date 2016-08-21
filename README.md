@@ -1,4 +1,4 @@
-# Nee-co aldea
+# Nee-co Aldea
 ### 共有事項
 |         概要        |   イベント管理APIサーバー |
 |:-------------------:|:-------------------------:|
@@ -7,13 +7,13 @@
 |  使用フレームワーク |    Ruby on Rails (5.0.0)  |
 |    バージョン管理   |             Git           |
 |    Gitホスティング  |          Bitbucket        |
-|      タスク管理     |      Backlog or Jira      |
 
 ---
 
 ### 必要知識/キーワード
 - Git
 - Vagrant
+- Docker
 - MVC
 - Ruby
 - Ruby on Rails
@@ -41,14 +41,13 @@ $ git config --global user.email "Bitbucketに設定したメールアドレス"
 ---
 
 ### 開発構築手順
-- VagrantBox(aldeaを追加する) `vagrant box add aldea <boxファイルパス>`
 - 共有リポジトリから自分のリポジトリを[Fork](https://bitbucket.org/nhac/aldea/fork)する
 - クローンしたリポジトリのアクセス権に `nee-co (nhac:nee-co)` グループをReadで追加する(レビューしやすくするため)
 
 ```
 $ git clone git@bitbucket.org:<ユーザ名>/aldea.git
 $ cd aldea
-$ git remote add blessed git@bitbucket.org:nhac/aldea.git
+$ git remote add upstream git@bitbucket.org:nhac/aldea.git
 $ git remote update
 $ vagrant up
 $ vagrant ssh
@@ -91,10 +90,14 @@ vagrant> RAILS_ENV=development bundle exec rails server
     * origin(フォークした自分のリポジトリ)にpushする
 
 - プルリクエスト
-    * Bitbucket上でblessedリポジトリにPR(プルリクエスト)を出す
+    * Bitbucket上でupstreamリポジトリにPR(プルリクエスト)を出す
     * PRを出す前に最新のdevelopからをrebaseしておくとコンフリクトに対応しやすい
-    * PRを出すまではremaseやammendはやっても良いが、PR後は避けるべき
+    * PRを出すまではrebaseやammendはやっても良いが、PR後は避けるべき
     * 宛先branchはdevelopにする
     * `Title` `説明`はわかりやすくする(チケット番号をつけるとチケットを追いやすいためGood)
     * レビューアがマージする(プルリクエストを出した本人は基本的にマージしない)
     * 作業途中のPRはPRタイトルに `[WIP]` をつける
+
+### Dockerイメージ作成
+
+`docker-compose build`
