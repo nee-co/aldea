@@ -100,4 +100,4 @@ vagrant> RAILS_ENV=development bundle exec rails server
 
 ### Dockerイメージ作成
 
-`docker-compose build`
+`make build`
