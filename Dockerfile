@@ -5,9 +5,7 @@ RUN apk add --no-cache --update mariadb-dev tzdata && \
     apk add --no-cache --virtual build-dependencies \
     build-base \
     libxml2-dev \
-    libxslt-dev && \
-    bundle config build.nokogiri --use-system-libraries && \
-    gem install -N bundler nokogiri
+    libxslt-dev
 COPY Gemfile /app/Gemfile
 COPY Gemfile.lock /app/Gemfile.lock
 WORKDIR /app
