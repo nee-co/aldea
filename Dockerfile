@@ -1,5 +1,4 @@
 FROM ruby:2.3.1-alpine
-LABEL maintainer="Nee-co"
 ENV RAILS_ENV=production
 RUN apk add --no-cache --update mariadb-dev tzdata && \
     apk add --no-cache --virtual build-dependencies \
@@ -12,3 +11,5 @@ WORKDIR /app
 RUN bundle install --without test development && apk del build-dependencies
 COPY . /app
 CMD ["bundle", "exec", "rails", "server"]
+ARG REVISION
+LABEL revision=$REVISION maintainer="Nee-co"
