@@ -3,10 +3,10 @@ REVISION=`git rev-parse HEAD`
 .PHONY: image dev-image up_db up_app setup_db volumes networks
 
 image:
-	docker build --no-cache --tag aldea-application:$(REVISION) .
+	docker build --no-cache --tag aldea-application --build-arg REVISION=$(REVISION) .
 
 dev-image:
-	docker build --tag aldea-application:$(REVISION) .
+	docker build --tag aldea-application --build-arg REVISION=$(REVISION) .
 
 up_db:
 	docker-compose up -d aldea-database
