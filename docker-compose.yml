@@ -1,17 +1,14 @@
 version: '2'
 services:
-  datastore:
-    image: busybox
-    volumes:
-      - /var/lib/mysql
-      - /app/log
-  database:
+  aldea-database:
     image: mariadb
     environment:
       - MYSQL_ROOT_PASSWORD=root
-    volumes_from:
-      - datastore
-  application:
+    volumes:
+      - aldea:/var/lib/mysql
+    networks:
+      - aldea
+  aldea-application:
     build: .
     image: aldea-application
     environment:
@@ -23,6 +20,19 @@ services:
     ports:
       - "3000:3000"
     depends_on:
-      - database
-    volumes_from:
-      - datastore
+      - aldea-database
+    networks:
+      - aldea
+      - aldea-cuenta
+volumes:
+  aldea:
+    external:
+      name: neeco_aldea
+
+networks:
+  aldea:
+    external:
+      name: neeco_aldea
+  aldea-cuenta:
+    external:
+      name: neeco_aldea-cuenta
