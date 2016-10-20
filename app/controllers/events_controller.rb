@@ -3,6 +3,8 @@ class EventsController < ApplicationController
 
   # GET /events/1
   def show
+    @users = EventUserService.list_users(@event)
+    @comments = EventCommentService.list_comments(@event,@users)
   end
 
   # POST /events
