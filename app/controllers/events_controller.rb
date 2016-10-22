@@ -10,11 +10,14 @@ class EventsController < ApplicationController
   # POST /events
   def create
     @event = Event.new(event_params)
-
+    tag_ids = tag_params
+    for id in tag_ids do
+      @event.tags<<Tag.find(id)
+    end
     if @event.save
-      render :show, status: :created, location: @event
+      render json: @event
     else
-      render json: @event.errors, status: :unprocessable_entity
+      render json: { status: 500 } 
     end
   end
 
