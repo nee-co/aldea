@@ -47,6 +47,7 @@ class EventsController < ApplicationController
   end
 
   def event_params
-    params.fetch(:event, {})
+    json_request = params.fetch(:event, {})
+    json_request.permit(:title,:body,:venue,:started_at,:ended_at,:entry_upper_limit,:register_id)
   end
 end
