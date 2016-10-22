@@ -173,6 +173,7 @@ GEM
     ruby-progressbar (1.8.1)
     ruby_dep (1.4.0)
     safe_yaml (1.0.4)
+    settingslogic (2.0.9)
     shellany (0.0.1)
     slop (3.6.0)
     spring (2.0.0)
@@ -221,6 +222,7 @@ DEPENDENCIES
   rack-cors
   rails (>= 5.0.0)
   rubocop
+  settingslogic
   spring
   spring-watcher-listen
 
