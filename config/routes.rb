@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :events, { format: 'json', except: [:index] } do
+  resources :events, { format: 'json', except: %i(index) } do
     collection do
       get :search
       get "", action: :search
@@ -7,7 +7,7 @@ Rails.application.routes.draw do
     member do
       put :public
       put :join
-      resources :comments, only: [:create]
+      resources :comments, only: %i(create)
     end
   end
 end
