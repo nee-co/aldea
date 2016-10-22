@@ -38,7 +38,7 @@ create_table "events", collate: "utf8_general_ci", comment: "イベント" do |t
   t.datetime "ended_at", null: true, comment: "終了日時"
   t.varchar "venue", null: true, comment: "会場"
   t.int "entry_upper_limit", null: true, comment: "人数上限"
-  t.int "status", default: 0, comment: "ステータス(0:非公開, 1:公開, 2:満員, 3:終了, 9:中止)"
+  t.int "status", default: 0, comment: "ステータス(0:非公開(下書き), 1:公開/受付中, 2:満員, 3:受付終了)"
   t.datetime "created_at", null: true, comment: "レコード作成日時"
   t.datetime "updated_at", null: true, comment: "レコード更新日時"
 end

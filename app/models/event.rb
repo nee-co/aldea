@@ -11,12 +11,14 @@
 #  ended_at          :datetime
 #  venue             :string(255)
 #  entry_upper_limit :integer
-#  status            :integer          default(0), not null
+#  status            :integer          default("draft"), not null
 #  created_at        :datetime
 #  updated_at        :datetime
 #
 
 class Event < ApplicationRecord
+  enum status: { draft: 0, published: 1, full: 2, closed: 3 }
+
   has_many :comments, dependent: :delete_all
   has_many :entries, dependent: :delete_all
   has_and_belongs_to_many :tags
