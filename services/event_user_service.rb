@@ -8,7 +8,7 @@ class EventUserService
     comment_users_ids = event.comments.pluck(:user_id)
     user_number = []
     user_number.push(register_id).push(entries_ids).push(comment_users_ids).flatten!
-    users = User.list(user_number.join(' '))
+    users = Cuenta::User.list(user_ids: user_number)
 
     register = []
     entries = []
