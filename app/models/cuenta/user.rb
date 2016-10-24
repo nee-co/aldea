@@ -11,6 +11,7 @@ module Cuenta
 
     proxy UserProxy
 
+    get :find, "/internal/users/:id"
     get :list, "/internal/users/list", params_encoder: :flat
   end
 end
