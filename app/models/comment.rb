@@ -16,5 +16,8 @@
 #
 
 class Comment < ApplicationRecord
+
+  PERMITTED_ATTRIBUTES = %i(comment).freeze
+
   belongs_to :event
 end
