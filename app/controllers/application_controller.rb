@@ -12,6 +12,6 @@ class ApplicationController < ActionController::API
   protected
 
   def authenticate_account!
-    head :unauthorized unless current_user.present?
+    head :unauthorized and return unless current_user.present?
   end
 end

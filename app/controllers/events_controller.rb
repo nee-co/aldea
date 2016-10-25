@@ -4,7 +4,7 @@ class EventsController < ApplicationController
   before_action :validate_no_register!, only: %i(entry leave)
 
   def show
-    head :not_found if @event.draft? && @event.register_id != current_user.user_id
+    head :not_found and return if @event.draft? && @event.register_id != current_user.user_id
     @users = EventUserService.list_users(@event)
     @comments = EventCommentService.list_comments(@event,@users)
   end
@@ -32,17 +32,17 @@ class EventsController < ApplicationController
   end
 
   def destroy
-    head :forbidden unless @event.draft?
+    head :forbidden and return unless @event.draft?
     @event.destroy
   end
 
   def public
-    head :forbidden unless @event.draft?
+    head :forbidden and return unless @event.draft?
     @event.published!
   end
 
   def entry
-    head :forbidden unless @event.published?
+    head :forbidden and return unless @event.published?
     @event.entries.create(user_id: current_user.user_id)
     @event.full! if @event.entry_upper_limit && @event.entry_upper_limit <= @event.entries.size
   rescue ActiveRecord::RecordNotUnique
@@ -71,10 +71,10 @@ class EventsController < ApplicationController
   end
 
   def validate_register!
-    head :forbidden unless @event.register_id == current_user.user_id
+    head :forbidden and return unless @event.register_id == current_user.user_id
   end
 
   def validate_no_register!
-    head :forbidden if @event.register_id == current_user.user_id
+    head :forbidden and return if @event.register_id == current_user.user_id
   end
 end
