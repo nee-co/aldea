@@ -15,7 +15,7 @@ class EventsController < ApplicationController
       @event.save
       render json: @event
     else
-      head :bad_request
+      head :unprocessable_entity
     end
   end
 
@@ -23,7 +23,7 @@ class EventsController < ApplicationController
     if @event.update(event_params)
       render :show, status: :ok, location: @event
     else
-      render json: @event.errors, status: :unprocessable_entity
+      head :unprocessable_entity
     end
   end
 
