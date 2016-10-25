@@ -56,6 +56,11 @@ class EventsController < ApplicationController
     head :forbidden and return
   end
 
+  def close
+    head :forbidden and return unless (@event.published? || @event.full?)
+    @event.closed!
+  end
+
   def search
     search = Search::Event.new(keyword: params[:keyword], started_at: params[:started_at], ended_at: params[:ended_at])
     @page = params[:page]
