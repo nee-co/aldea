@@ -49,6 +49,13 @@ class EventsController < ApplicationController
     head :unprocessable_entity
   end
 
+  def leave
+    @event.entries.find_by!(user_id: current_user.user_id).destroy
+    @event.published! if @event.full? && @event.entry_upper_limit && @event.entry_upper_limit > @event.entries.size
+  rescue ActiveRecord::RecordNotFound
+    head :forbidden and return
+  end
+
   def search
     search = Search::Event.new(keyword: params[:keyword], started_at: params[:started_at], ended_at: params[:ended_at])
     @page = params[:page]
