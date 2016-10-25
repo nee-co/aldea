@@ -19,9 +19,13 @@
 class Event < ApplicationRecord
   enum status: { draft: 0, published: 1, full: 2, closed: 3 }
 
+  PERMITTED_ATTRIBUTES = %i(title body venue started_at ended_at entry_upper_limit).freeze
+
   has_many :comments, dependent: :delete_all
   has_many :entries, dependent: :delete_all
   has_and_belongs_to_many :tags
+
+  validates :title, presence: true
 
   scope :title_like, -> word {
     where(Event.arel_table[:title].matches("%#{word}%"))
