@@ -1,7 +1,8 @@
 class EventsController < ApplicationController
-  before_action :set_event, only: %i(show update destroy)
+  before_action :set_event, only: %i(show update public entry leave close destroy)
 
   def show
+    head :not_found if @event.draft? && @event.register_id != current_user.user_id
     @users = EventUserService.list_users(@event)
     @comments = EventCommentService.list_comments(@event,@users)
   end
