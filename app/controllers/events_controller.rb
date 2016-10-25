@@ -32,6 +32,7 @@ class EventsController < ApplicationController
   end
 
   def destroy
+    head :forbidden unless @event.draft?
     @event.destroy
   end
 
