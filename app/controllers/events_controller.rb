@@ -21,7 +21,9 @@ class EventsController < ApplicationController
 
   def update
     if @event.update(event_params)
-      render :show, status: :ok, location: @event
+      @users = EventUserService.list_users(@event)
+      @comments = EventCommentService.list_comments(@event,@users)
+      render :show
     else
       head :unprocessable_entity
     end
