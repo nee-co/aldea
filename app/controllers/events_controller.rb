@@ -1,6 +1,7 @@
 class EventsController < ApplicationController
   before_action :set_event, only: %i(show update public entry leave close destroy)
   before_action :validate_register!, only: %i(update destroy public close)
+  before_action :validate_no_register!, only: %i(entry leave)
 
   def show
     head :not_found if @event.draft? && @event.register_id != current_user.user_id
@@ -57,5 +58,9 @@ class EventsController < ApplicationController
 
   def validate_register!
     head :forbidden unless @event.register_id == current_user.user_id
+  end
+
+  def validate_no_register!
+    head :forbidden if @event.register_id == current_user.user_id
   end
 end
