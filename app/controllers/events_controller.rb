@@ -36,6 +36,11 @@ class EventsController < ApplicationController
     @event.destroy
   end
 
+  def public
+    head :forbidden unless @event.draft?
+    @event.published!
+  end
+
   def search
     search = Search::Event.new(keyword: params[:keyword], started_at: params[:started_at], ended_at: params[:ended_at])
     @page = params[:page]
