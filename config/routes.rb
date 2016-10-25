@@ -9,7 +9,7 @@ Rails.application.routes.draw do
     member do
       put :public
       put :entry
-      delete :entry
+      delete :entry, action: :leave
       put :close
       resources :comments, only: %i(create)
     end
