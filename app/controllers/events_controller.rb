@@ -41,6 +41,14 @@ class EventsController < ApplicationController
     @event.published!
   end
 
+  def entry
+    head :forbidden unless @event.published?
+    @event.entries.create(user_id: current_user.user_id)
+    @event.full! if @event.entry_upper_limit && @event.entry_upper_limit <= @event.entries.size
+  rescue ActiveRecord::RecordNotUnique
+    head :unprocessable_entity
+  end
+
   def search
     search = Search::Event.new(keyword: params[:keyword], started_at: params[:started_at], ended_at: params[:ended_at])
     @page = params[:page]
