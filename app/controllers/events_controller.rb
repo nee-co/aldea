@@ -2,6 +2,7 @@ class EventsController < ApplicationController
   before_action :set_event, only: %i(show update public entry leave close destroy)
   before_action :validate_register!, only: %i(update destroy public close)
   before_action :validate_no_register!, only: %i(entry leave)
+  before_action :require_paginated_param!, only: %i(entries own search)
 
   def show
     head :not_found and return if @event.draft? && @event.register_id != current_user.user_id

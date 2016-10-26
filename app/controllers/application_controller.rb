@@ -14,4 +14,8 @@ class ApplicationController < ActionController::API
   def authenticate_account!
     head :unauthorized and return unless current_user.present?
   end
+
+  def require_paginated_param!
+    head :unprocessable_entity unless %i(page per).all?(&params.method(:include?))
+  end
 end
