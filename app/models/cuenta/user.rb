@@ -13,5 +13,9 @@ module Cuenta
 
     get :find, "/internal/users/:id"
     get :list, "/internal/users/list", params_encoder: :flat
+
+    def entry_events
+      Event.entries_by_user(self.user_id)
+    end
   end
 end

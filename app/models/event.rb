@@ -48,4 +48,12 @@ class Event < ApplicationRecord
     date = ended_at.to_date
     where(Event.arel_table[:ended_at].in((date.beginning_of_day)..(date.end_of_day)))
   }
+
+  scope :active, -> {
+    where(status: %i(published full)).or(Event.closed.where(Event.arel_table[:started_at].gteq Date.current))
+  }
+
+  scope :entries_by_user, -> user_id {
+    joins(:entries).merge(Entry.where(user_id: 1))
+  }
 end
