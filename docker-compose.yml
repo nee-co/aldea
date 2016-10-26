@@ -25,6 +25,8 @@ services:
     networks:
       - aldea
       - aldea-cuenta
+      - kong-aldea
+
 volumes:
   aldea:
     external:
@@ -37,3 +39,6 @@ networks:
   aldea-cuenta:
     external:
       name: neeco_aldea-cuenta
+  kong-aldea:
+    external:
+      name: neeco_kong-aldea
