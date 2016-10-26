@@ -68,6 +68,12 @@ class EventsController < ApplicationController
     @events = current_user.entry_events.active.page(@page).per(@per)
   end
 
+  def own
+    @page = params[:page]
+    @per = params[:per]
+    @events = current_user.registered_events.page(@page).per(@per)
+  end
+
   def search
     search = Search::Event.new(keyword: params[:keyword], started_at: params[:started_at], ended_at: params[:ended_at])
     @page = params[:page]

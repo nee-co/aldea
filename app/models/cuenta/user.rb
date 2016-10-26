@@ -17,5 +17,9 @@ module Cuenta
     def entry_events
       Event.entries_by_user(self.user_id)
     end
+
+    def registered_events
+      Event.where(register_id: self.user_id)
+    end
   end
 end
