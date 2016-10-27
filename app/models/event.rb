@@ -56,4 +56,17 @@ class Event < ApplicationRecord
   scope :entries_by_user, -> user_id {
     joins(:entries).merge(Entry.where(user_id: 1))
   }
+
+  def users
+    entries_ids = entries.ids
+    comment_user_ids = comments.pluck(:user_id)
+    user_ids = [register_id, entries_ids, comment_user_ids].flatten.uniq
+    users = Cuenta::User.list(user_ids: user_ids).users
+
+    users = OpenStruct.new(
+      register: users.find { |u| u.user_id == register_id },
+      entries: users.select { |u| entries_ids.include?(u.user_id) },
+      comment_users: users.select { |u| comment_user_ids.include?(u.user_id) }
+    )
+  end
 end

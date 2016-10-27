@@ -6,8 +6,14 @@ class EventsController < ApplicationController
 
   def show
     head :not_found and return if @event.draft? && @event.register_id != current_user.user_id
-    @users = EventUserService.list_users(@event)
-    @comments = EventCommentService.list_comments(@event,@users)
+    @users = @event.users
+    @comments = @event.comments.map do |comment|
+                  OpenStruct.new(
+                    body: comment.body,
+                    posted_at: comment.posted_at,
+                    user: @users.comment_users.find { |u| u.user_id == comment.user_id }
+                  )
+                end
   end
 
   def create
@@ -24,9 +30,7 @@ class EventsController < ApplicationController
 
   def update
     if @event.update(event_params)
-      @users = EventUserService.list_users(@event)
-      @comments = EventCommentService.list_comments(@event,@users)
-      render :show
+      render json: @event
     else
       head :unprocessable_entity
     end
