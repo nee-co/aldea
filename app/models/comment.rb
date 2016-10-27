@@ -17,7 +17,7 @@
 
 class Comment < ApplicationRecord
 
-  PERMITTED_ATTRIBUTES = %i(comment).freeze
-
   belongs_to :event
+
+  validates :body, presence: true
 end

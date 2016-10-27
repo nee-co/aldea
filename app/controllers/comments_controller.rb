@@ -3,16 +3,25 @@ class CommentsController < ApplicationController
 
   def create
     head :forbidden and return if @event.draft?
-    @event.comments.create(
-      body: params[:comment],
+    comment = @event.comments.build(
+      body: comment_params[:body],
       user_id: current_user.user_id,
       posted_at: DateTime.current
     )
+    if comment.valid?
+      comment.save
+    else
+      head :unprocessable_entity
+    end
   end
 
   private
 
   def set_event
     @event = Event.find(params[:id])
+  end
+
+  def comment_params
+    params.require(:comment)
   end
 end
