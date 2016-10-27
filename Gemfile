@@ -9,6 +9,7 @@ gem 'convergence'
 gem 'rack-cors'
 gem 'flexirest'
 gem 'kaminari'
+gem 'settingslogic'
 
 group :development, :test do
   gem 'byebug', platform: :mri

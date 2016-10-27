@@ -11,15 +11,21 @@
 #  ended_at          :datetime
 #  venue             :string(255)
 #  entry_upper_limit :integer
-#  status            :integer          default(0), not null
+#  status            :integer          default("draft"), not null
 #  created_at        :datetime
 #  updated_at        :datetime
 #
 
 class Event < ApplicationRecord
+  enum status: { draft: 0, published: 1, full: 2, closed: 3 }
+
+  PERMITTED_ATTRIBUTES = %i(title body venue started_at ended_at entry_upper_limit).freeze
+
   has_many :comments, dependent: :delete_all
   has_many :entries, dependent: :delete_all
   has_and_belongs_to_many :tags
+
+  validates :title, presence: true
 
   scope :title_like, -> word {
     where(Event.arel_table[:title].matches("%#{word}%"))
@@ -42,4 +48,25 @@ class Event < ApplicationRecord
     date = ended_at.to_date
     where(Event.arel_table[:ended_at].in((date.beginning_of_day)..(date.end_of_day)))
   }
+
+  scope :active, -> {
+    where(status: %i(published full)).or(Event.closed.where(Event.arel_table[:started_at].gteq Date.current))
+  }
+
+  scope :entries_by_user, -> user_id {
+    joins(:entries).merge(Entry.where(user_id: 1))
+  }
+
+  def users
+    entries_ids = entries.ids
+    comment_user_ids = comments.pluck(:user_id)
+    user_ids = [register_id, entries_ids, comment_user_ids].flatten.uniq
+    users = Cuenta::User.list(user_ids: user_ids).users
+
+    users = OpenStruct.new(
+      register: users.find { |u| u.user_id == register_id },
+      entries: users.select { |u| entries_ids.include?(u.user_id) },
+      comment_users: users.select { |u| comment_user_ids.include?(u.user_id) }
+    )
+  end
 end

@@ -16,8 +16,9 @@
 # Ignore Byebug command history file.
 .byebug_history
 
-.vagrant
-
+# Development
 .DS_Store
+.vagrant
+docker-compose.override.yml
 
 config/dev_database.yml

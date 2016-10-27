@@ -1,45 +1,80 @@
 class EventsController < ApplicationController
-  before_action :set_event, only: [:show, :update, :destroy]
+  before_action :set_event, only: %i(show update public entry leave close destroy)
+  before_action :validate_register!, only: %i(update destroy public close)
+  before_action :validate_no_register!, only: %i(entry leave)
+  before_action :set_paginated_param!, only: %i(entries own search)
 
-  # GET /events/1
   def show
-    @users = EventUserService.list_users(@event)
-    @comments = EventCommentService.list_comments(@event,@users)
+    head :not_found and return if @event.draft? && @event.register_id != current_user.user_id
+    @users = @event.users
+    @comments = @event.comments.map do |comment|
+                  OpenStruct.new(
+                    body: comment.body,
+                    posted_at: comment.posted_at,
+                    user: @users.comment_users.find { |u| u.user_id == comment.user_id }
+                  )
+                end
   end
 
-  # POST /events
   def create
     @event = Event.new(event_params)
-    tag_ids = tag_params
-    for id in tag_ids do
-      @event.tags<<Tag.find(id)
-    end
-    if @event.save
-      render json: @event
+    @event.register_id = current_user.user_id
+    @event.tags << Tag.find(tag_params)
+    if @event.valid?
+      @event.save
     else
-      render json: { status: 500 } 
+      head :unprocessable_entity
     end
   end
 
-  # PATCH/PUT /events/1
   def update
     if @event.update(event_params)
-      render :show, status: :ok, location: @event
     else
-      render json: @event.errors, status: :unprocessable_entity
+      head :unprocessable_entity
     end
   end
 
-  # DELETE /events/1
   def destroy
+    head :forbidden and return unless @event.draft?
     @event.destroy
   end
 
-  # GET /events/search?keyword=Ruby&started_at=20160710&ended_at=20160710
+  def public
+    head :forbidden and return unless @event.draft?
+    @event.published!
+    @event.update(published_at: DateTime.current)
+  end
+
+  def entry
+    head :forbidden and return unless @event.published?
+    @event.entries.create(user_id: current_user.user_id)
+    @event.full! if @event.entry_upper_limit && @event.entry_upper_limit <= @event.entries.size
+  rescue ActiveRecord::RecordNotUnique
+    head :unprocessable_entity
+  end
+
+  def leave
+    @event.entries.find_by!(user_id: current_user.user_id).destroy
+    @event.published! if @event.full? && @event.entry_upper_limit && @event.entry_upper_limit > @event.entries.size
+  rescue ActiveRecord::RecordNotFound
+    head :forbidden and return
+  end
+
+  def close
+    head :forbidden and return unless (@event.published? || @event.full?)
+    @event.closed!
+  end
+
+  def entries
+    @events = current_user.entry_events.active.page(@page).per(@per)
+  end
+
+  def own
+    @events = current_user.registered_events.page(@page).per(@per)
+  end
+
   def search
     search = Search::Event.new(keyword: params[:keyword], started_at: params[:started_at], ended_at: params[:ended_at])
-    @page = params[:page]
-    @per = params[:per]
     @events = search.matches.page(@page).per(@per)
   end
 
@@ -50,11 +85,18 @@ class EventsController < ApplicationController
   end
 
   def event_params
-    json_request = params.fetch(:event, {})
-    json_request.permit(:title,:body,:venue,:started_at,:ended_at,:entry_upper_limit,:register_id)
+    params.require(:event).permit(Event::PERMITTED_ATTRIBUTES)
   end
 
   def tag_params
     params.fetch(:tags, {})
+  end
+
+  def validate_register!
+    head :forbidden and return unless @event.register_id == current_user.user_id
+  end
+
+  def validate_no_register!
+    head :forbidden and return if @event.register_id == current_user.user_id
   end
 end
