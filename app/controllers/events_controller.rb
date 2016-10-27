@@ -2,7 +2,7 @@ class EventsController < ApplicationController
   before_action :set_event, only: %i(show update public entry leave close destroy)
   before_action :validate_register!, only: %i(update destroy public close)
   before_action :validate_no_register!, only: %i(entry leave)
-  before_action :require_paginated_param!, only: %i(entries own search)
+  before_action :set_paginated_param!, only: %i(entries own search)
 
   def show
     head :not_found and return if @event.draft? && @event.register_id != current_user.user_id
@@ -66,21 +66,15 @@ class EventsController < ApplicationController
   end
 
   def entries
-    @page = params[:page]
-    @per = params[:per]
     @events = current_user.entry_events.active.page(@page).per(@per)
   end
 
   def own
-    @page = params[:page]
-    @per = params[:per]
     @events = current_user.registered_events.page(@page).per(@per)
   end
 
   def search
     search = Search::Event.new(keyword: params[:keyword], started_at: params[:started_at], ended_at: params[:ended_at])
-    @page = params[:page]
-    @per = params[:per]
     @events = search.matches.page(@page).per(@per)
   end
 
