@@ -22,7 +22,6 @@ class EventsController < ApplicationController
     @event.tags << Tag.find(tag_params)
     if @event.valid?
       @event.save
-      render json: @event
     else
       head :unprocessable_entity
     end
@@ -30,7 +29,6 @@ class EventsController < ApplicationController
 
   def update
     if @event.update(event_params)
-      render json: @event
     else
       head :unprocessable_entity
     end
