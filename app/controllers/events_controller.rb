@@ -22,6 +22,7 @@ class EventsController < ApplicationController
     @event.tags << Tag.find(tag_params)
     if @event.valid?
       @event.save
+      render status: :created
     else
       head :unprocessable_entity
     end

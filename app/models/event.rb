@@ -54,11 +54,11 @@ class Event < ApplicationRecord
   }
 
   scope :entries_by_user, -> user_id {
-    joins(:entries).merge(Entry.where(user_id: 1))
+    joins(:entries).merge(Entry.where(user_id: user_id))
   }
 
   def users
-    entries_ids = entries.ids
+    entries_ids = entries.pluck(:user_id)
     comment_user_ids = comments.pluck(:user_id)
     user_ids = [register_id, entries_ids, comment_user_ids].flatten.uniq
     users = Cuenta::User.list(user_ids: user_ids).users
