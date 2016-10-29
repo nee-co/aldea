@@ -7,7 +7,7 @@ module Cuenta
   end
 
   class User < Flexirest::Base
-    include User::ApiClient
+    include Cuenta::ApiClient
 
     proxy UserProxy
 
