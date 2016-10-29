@@ -54,7 +54,7 @@ class Event < ApplicationRecord
   }
 
   scope :entries_by_user, -> user_id {
-    joins(:entries).merge(Entry.where(user_id: 1))
+    joins(:entries).merge(Entry.where(user_id: user_id))
   }
 
   def users
