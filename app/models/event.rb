@@ -12,6 +12,7 @@
 #  venue             :string(255)
 #  entry_upper_limit :integer
 #  status            :integer          default("draft"), not null
+#  image             :string(255)      not null
 #  created_at        :datetime
 #  updated_at        :datetime
 #
@@ -21,6 +22,8 @@ class Event < ApplicationRecord
 
   PERMITTED_ATTRIBUTES = %i(title body venue started_at ended_at entry_upper_limit).freeze
   PUBLIC_REQUIRED_ATTRIBUTES = %i(title body venue started_at ended_at).freeze
+
+  DEFAULT_IMAGE_PATH = "images/events/default.png"
 
   has_many :comments, dependent: :delete_all
   has_many :entries, dependent: :delete_all
