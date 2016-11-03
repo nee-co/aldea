@@ -41,7 +41,7 @@ class EventsController < ApplicationController
   end
 
   def public
-    head :forbidden and return unless @event.draft?
+    head :forbidden and return unless @event.publishable?
     @event.published!
     @event.update(published_at: DateTime.current)
   end
@@ -67,11 +67,11 @@ class EventsController < ApplicationController
   end
 
   def entries
-    @events = current_user.entry_events.active.page(@page).per(@per)
+    @events = current_user.entry_events.active.includes(:tags).page(@page).per(@per)
   end
 
   def own
-    @events = current_user.registered_events.page(@page).per(@per)
+    @events = current_user.registered_events.yet.includes(:tags).page(@page).per(@per)
   end
 
   def search
