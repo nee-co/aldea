@@ -20,6 +20,7 @@ class Event < ApplicationRecord
   enum status: { draft: 0, published: 1, full: 2, closed: 3 }
 
   PERMITTED_ATTRIBUTES = %i(title body venue started_at ended_at entry_upper_limit).freeze
+  PUBLIC_REQUIRED_ATTRIBUTES = %i(title body venue started_at ended_at).freeze
 
   has_many :comments, dependent: :delete_all
   has_many :entries, dependent: :delete_all
@@ -56,6 +57,10 @@ class Event < ApplicationRecord
   scope :entries_by_user, -> user_id {
     joins(:entries).merge(Entry.where(user_id: user_id))
   }
+
+  def publishable?
+    self.draft? && Event::PUBLIC_REQUIRED_ATTRIBUTES.all?(&self.method(:send))
+  end
 
   def users
     entries_ids = entries.pluck(:user_id)
