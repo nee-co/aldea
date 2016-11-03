@@ -67,7 +67,7 @@ class EventsController < ApplicationController
   end
 
   def entries
-    @events = current_user.entry_events.active.page(@page).per(@per)
+    @events = current_user.entry_events.active.includes(:tags).page(@page).per(@per)
   end
 
   def own
