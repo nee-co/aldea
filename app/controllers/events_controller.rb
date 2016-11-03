@@ -29,8 +29,7 @@ class EventsController < ApplicationController
   end
 
   def update
-    if @event.update(event_params)
-    else
+    unless @event.update(event_params)
       head :unprocessable_entity
     end
   end
