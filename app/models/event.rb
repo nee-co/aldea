@@ -50,6 +50,10 @@ class Event < ApplicationRecord
     where(Event.arel_table[:ended_at].in((date.beginning_of_day)..(date.end_of_day)))
   }
 
+  scope :yet, -> {
+    where.not(status: :closed).or(Event.where(status: :closed).where(Event.arel_table[:ended_at].gteq Date.current))
+  }
+
   scope :active, -> {
     where(status: %i(published full)).or(Event.closed.where(Event.arel_table[:started_at].gteq Date.current))
   }
