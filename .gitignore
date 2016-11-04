@@ -22,3 +22,10 @@
 docker-compose.override.yml
 
 config/dev_database.yml
+
+/uploads/*
+!/uploads/images/
+/uploads/images/*
+!/uploads/images/events/
+/uploads/images/events/*
+!/uploads/images/users/default.png

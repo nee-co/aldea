@@ -1,6 +1,6 @@
 class EventsController < ApplicationController
-  before_action :set_event, only: %i(show update public entry leave close destroy)
-  before_action :validate_register!, only: %i(update destroy public close)
+  before_action :set_event, only: %i(show update public entry leave close destroy image)
+  before_action :validate_register!, only: %i(update destroy public close image)
   before_action :validate_no_register!, only: %i(entry leave)
   before_action :set_paginated_param!, only: %i(entries own search)
 
@@ -17,11 +17,12 @@ class EventsController < ApplicationController
   end
 
   def create
-    @event = Event.new(event_params)
-    @event.register_id = current_user.user_id
-    @event.tags << Tag.find(tag_params)
-    if @event.valid?
-      @event.save
+    event = Event.new(event_params.merge(image: Event::DEFAULT_IMAGE_PATH))
+    event.register_id = current_user.user_id
+    event.tags << Tag.find(tag_params)
+    if event.valid?
+      event.save
+      @event = event.decorate
       render status: :created
     else
       head :unprocessable_entity
@@ -30,6 +31,7 @@ class EventsController < ApplicationController
 
   def update
     if @event.update(event_params)
+      @event = @event.decorate
     else
       head :unprocessable_entity
     end
@@ -66,23 +68,42 @@ class EventsController < ApplicationController
     @event.closed!
   end
 
+  def image
+    file = params.require(:image)
+    extname = File.extname(file.original_filename)
+    @event.image = File.join('images', 'events', SecureRandom.uuid + extname)
+
+    if @event.valid? && extname[1..-1].in?(Event::ALLOW_IMAGE_EXTNAMES)
+      File.open(upload_path(@event.image), 'wb') { |f| f.write(file.read) }
+      FileUtils.safe_unlink(upload_path(@event.image_was)) unless @event.image_was == Event::DEFAULT_IMAGE_PATH
+      @event.save
+    else
+      head :forbidden and return
+    end
+  end
+
   def entries
-    @events = current_user.entry_events.active.includes(:tags).page(@page).per(@per)
+    events = current_user.entry_events.active.includes(:tags).page(@page).per(@per)
+    @total_count = events.total_count
+    @events = EventDecorator.decorate_collection(events)
   end
 
   def own
-    @events = current_user.registered_events.yet.includes(:tags).page(@page).per(@per)
+    events = current_user.registered_events.yet.includes(:tags).page(@page).per(@per)
+    @total_count = events.total_count
+    @events = EventDecorator.decorate_collection(events)
   end
 
   def search
-    search = Search::Event.new(keyword: params[:keyword], started_at: params[:started_at], ended_at: params[:ended_at])
-    @events = search.matches.page(@page).per(@per)
+    events = Search::Event.new(keyword: params[:keyword], started_at: params[:started_at], ended_at: params[:ended_at]).matches.page(@page).per(@per)
+    @total_count = events.total_count
+    @events = EventDecorator.decorate_collection(events)
   end
 
   private
 
   def set_event
-    @event = Event.find(params[:id])
+    @event = Event.find(params[:id]).decorate
   end
 
   def event_params

@@ -11,7 +11,8 @@ CSV.foreach('db/seeds/development/events.csv') do |list|
     ended_at: list[5],
     venue: list[6],
     entry_upper_limit: list[7].to_i,
-    status: list[8].to_i
+    status: list[8].to_i,
+    image: Event::DEFAULT_IMAGE_PATH
   )
 end
 

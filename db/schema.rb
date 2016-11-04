@@ -40,6 +40,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.string   "venue",                                                    comment: "会場"
     t.integer  "entry_upper_limit",                                        comment: "人数上限"
     t.integer  "status",                          default: 0, null: false, comment: "ステータス(0:非公開(下書き), 1:公開/受付中, 2:満員, 3:受付終了)"
+    t.string   "image",                                       null: false, comment: "イベント画像"
     t.datetime "created_at",                                               comment: "レコード作成日時"
     t.datetime "updated_at",                                               comment: "レコード更新日時"
   end

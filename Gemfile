@@ -10,6 +10,7 @@ gem 'rack-cors'
 gem 'flexirest'
 gem 'kaminari'
 gem 'settingslogic'
+gem 'draper', '>= 3.0.0.pre1'
 
 group :development, :test do
   gem 'byebug', platform: :mri
