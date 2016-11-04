@@ -17,11 +17,12 @@ class EventsController < ApplicationController
   end
 
   def create
-    @event = Event.new(event_params.merge(image: Event::DEFAULT_IMAGE_PATH))
-    @event.register_id = current_user.user_id
-    @event.tags << Tag.find(tag_params)
-    if @event.valid?
-      @event.save
+    event = Event.new(event_params.merge(image: Event::DEFAULT_IMAGE_PATH))
+    event.register_id = current_user.user_id
+    event.tags << Tag.find(tag_params)
+    if event.valid?
+      event.save
+      @event = event.decorate
       render status: :created
     else
       head :unprocessable_entity
@@ -29,7 +30,9 @@ class EventsController < ApplicationController
   end
 
   def update
-    unless @event.update(event_params)
+    if @event.update(event_params)
+      @event = @event.decorate
+    else
       head :unprocessable_entity
     end
   end
@@ -80,22 +83,27 @@ class EventsController < ApplicationController
   end
 
   def entries
-    @events = current_user.entry_events.active.includes(:tags).page(@page).per(@per)
+    events = current_user.entry_events.active.includes(:tags).page(@page).per(@per)
+    @total_count = events.total_count
+    @events = EventDecorator.decorate_collection(events)
   end
 
   def own
-    @events = current_user.registered_events.yet.includes(:tags).page(@page).per(@per)
+    events = current_user.registered_events.yet.includes(:tags).page(@page).per(@per)
+    @total_count = events.total_count
+    @events = EventDecorator.decorate_collection(events)
   end
 
   def search
-    search = Search::Event.new(keyword: params[:keyword], started_at: params[:started_at], ended_at: params[:ended_at])
-    @events = search.matches.page(@page).per(@per)
+    events = Search::Event.new(keyword: params[:keyword], started_at: params[:started_at], ended_at: params[:ended_at]).matches.page(@page).per(@per)
+    @total_count = events.total_count
+    @events = EventDecorator.decorate_collection(events)
   end
 
   private
 
   def set_event
-    @event = Event.find(params[:id])
+    @event = Event.find(params[:id]).decorate
   end
 
   def event_params

@@ -1,13 +1,8 @@
 class EventDecorator < Draper::Decorator
   delegate_all
 
-  # Define presentation-specific methods here. Helpers are accessed through
-  # `helpers` (aka `h`). You can override attributes, for example:
-  #
-  #   def created_at
-  #     helpers.content_tag :span, class: 'time' do
-  #       object.created_at.strftime("%a %m/%d/%y")
-  #     end
-  #   end
-
+  def image_url
+    image_path = File.exist?(File.join("uploads", object.image)) ? object.image : Event::DEFAULT_IMAGE_PATH
+    File.join(Settings.image_url, image_path)
+  end
 end
