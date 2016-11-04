@@ -24,6 +24,7 @@ class Event < ApplicationRecord
   PUBLIC_REQUIRED_ATTRIBUTES = %i(title body venue started_at ended_at).freeze
 
   DEFAULT_IMAGE_PATH = "images/events/default.png"
+  ALLOW_IMAGE_EXTNAMES = %w(png jpg jpeg gif).freeze
 
   has_many :comments, dependent: :delete_all
   has_many :entries, dependent: :delete_all

@@ -9,6 +9,10 @@ class ApplicationController < ActionController::API
     @current_user
   end
 
+  def upload_path(path)
+    Rails.root.join('uploads', path)
+  end
+
   protected
 
   def authenticate_account!
