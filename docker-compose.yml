@@ -23,6 +23,8 @@ services:
       - "3000:3000"
     depends_on:
       - aldea-database
+    volumes:
+      - public:/app/uploads
     networks:
       - aldea
       - aldea-cuenta
@@ -32,6 +34,9 @@ volumes:
   aldea:
     external:
       name: neeco_aldea
+  public:
+    external:
+      name: neeco_public
 
 networks:
   aldea:
