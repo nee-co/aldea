@@ -107,7 +107,7 @@ class EventsController < ApplicationController
   end
 
   def event_params
-    params.require(:event).permit(Event::PERMITTED_ATTRIBUTES)
+    params.permit(Event::PERMITTED_ATTRIBUTES)
   end
 
   def tag_params
