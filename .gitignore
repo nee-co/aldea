@@ -21,8 +21,6 @@
 .vagrant
 docker-compose.override.yml
 
-config/dev_database.yml
-
 /uploads/*
 !/uploads/images/
 /uploads/images/*
