@@ -4,7 +4,7 @@ class CommentsController < ApplicationController
   def create
     head :forbidden and return if @event.draft?
     comment = @event.comments.build(
-      body: comment_params[:body],
+      body: params[:body],
       user_id: current_user.user_id,
       posted_at: DateTime.current
     )
@@ -19,9 +19,5 @@ class CommentsController < ApplicationController
 
   def set_event
     @event = Event.find(params[:id])
-  end
-
-  def comment_params
-    params.require(:comment)
   end
 end
