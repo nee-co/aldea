@@ -19,7 +19,8 @@
 # Development
 .DS_Store
 .vagrant
-docker-compose.override.yml
+
+.env
 
 /uploads/*
 !/uploads/images/

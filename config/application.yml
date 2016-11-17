@@ -1,6 +1,6 @@
 defaults: &defaults
-  cuenta_url: <%= ENV['ALDEA_CUENTA_URL'] %>
-  image_url: <%= ENV['ALDEA_IMAGE_URL'] %>
+  cuenta_url: <%= ENV['CUENTA_URL'] %>
+  static_url: <%= ENV['STATIC_URL'] %>
 
 development:
   <<: *defaults
