@@ -1,7 +1,13 @@
 version: '2'
 services:
+  aldea-database:
+    environment:
+      MYSQL_DATABASE: aldea_development
   aldea-application:
+    image: registry.neec.xyz/dev/aldea-application
     volumes:
       - .:/app
     environment:
       - RAILS_ENV=development
+    ports:
+      - "3000:3000"
