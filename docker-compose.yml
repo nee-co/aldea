@@ -4,7 +4,7 @@ services:
     image: mariadb:10.1
     command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci
     environment:
-      MYSQL_DATABASE: aldea_production
+      MYSQL_DATABASE: aldea_development
       MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
       MYSQL_USER: $ALDEA_DATABASE_USER
       MYSQL_PASSWORD: $ALDEA_DATABASE_PASSWORD
@@ -13,7 +13,7 @@ services:
     networks:
       - aldea
   aldea-application:
-    image: registry.neec.xyz/neeco/aldea-application:latest
+    image: registry.neec.xyz/dev/aldea-application:latest
     environment:
       ALDEA_PORT: 3000
       ALDEA_DATABASE_HOST: aldea-database
@@ -22,10 +22,14 @@ services:
       ALDEA_SECRET_KEY_BASE:
       CUENTA_URL: http://cuenta-application:4000
       STATIC_URL:
+      RAILS_ENV: development
     depends_on:
       - aldea-database
+    ports:
+      - "3000:3000"
     volumes:
       - public:/app/uploads
+      - .:/app
     networks:
       - aldea
       - aldea-cuenta
