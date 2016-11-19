@@ -1,14 +1,14 @@
 REVISION=`git rev-parse HEAD`
 
-.PHONY: image up_db up_app migrate volumes networks import_default-files
+.PHONY: image db app migrate volumes networks import_default-files
 
 image:
 	docker build --tag aldea-application --build-arg REVISION=$(REVISION) .
 
-up_db:
+db:
 	docker-compose up -d aldea-database
 
-up_app:
+app:
 	docker-compose up -d aldea-application
 
 migrate:
