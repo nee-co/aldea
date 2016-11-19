@@ -93,9 +93,15 @@ class EventsController < ApplicationController
   end
 
   def search
-    events = Search::Event.new(keyword: params[:keyword]).matches.page(@page).per(@per)
-    @total_count = events.total_count
-    @events = EventDecorator.decorate_collection(events)
+    @events = Event.where(status: %i(published full))
+                   .where(Event.arel_table[:started_at].gteq Date.current)
+                   .where.not(register_id: current_user.id)
+                   .keyword_like(params[:keyword])
+                   .order(:started_at)
+                   .page(@page)
+                   .per(@per)
+                   .decorate
+    @total_count = @events.object.total_count
   end
 
   private
