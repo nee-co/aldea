@@ -15,11 +15,11 @@ module Cuenta
     get :list, "/internal/users/list", params_encoder: :flat
 
     def entry_events
-      Event.entries_by_user(self.user_id)
+      Event.entries_by_user(self.id)
     end
 
     def registered_events
-      Event.where(register_id: self.user_id)
+      Event.where(register_id: self.id)
     end
   end
 end

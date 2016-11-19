@@ -4,17 +4,16 @@
 #
 #  id                :integer          not null, primary key
 #  title             :string(255)      not null
-#  body              :text(65535)      not null
+#  body              :text(65535)
 #  register_id       :integer          not null
-#  published_at      :datetime
 #  started_at        :datetime
 #  ended_at          :datetime
 #  venue             :string(255)
 #  entry_upper_limit :integer
 #  status            :integer          default("draft"), not null
-#  image             :string(255)      not null
-#  created_at        :datetime
-#  updated_at        :datetime
+#  image             :string(255)
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
 #
 
 class Event < ApplicationRecord
@@ -28,7 +27,6 @@ class Event < ApplicationRecord
 
   has_many :comments, dependent: :delete_all
   has_many :entries, dependent: :delete_all
-  has_and_belongs_to_many :tags
 
   validates :title, presence: true
 
@@ -41,17 +39,7 @@ class Event < ApplicationRecord
   }
 
   scope :keyword_like, -> word {
-    joins(:tags).merge(Tag.name_like(word).or(Event.title_like(word).or(Event.body_like(word))))
-  }
-
-  scope :started_between, -> started_at {
-    date = started_at.to_date
-    where(Event.arel_table[:started_at].in((date.beginning_of_day)..(date.end_of_day)))
-  }
-
-  scope :ended_between, -> ended_at {
-    date = ended_at.to_date
-    where(Event.arel_table[:ended_at].in((date.beginning_of_day)..(date.end_of_day)))
+    Event.title_like(word).or(Event.body_like(word))
   }
 
   scope :yet, -> {
@@ -77,9 +65,9 @@ class Event < ApplicationRecord
     users = Cuenta::User.list(user_ids: user_ids).users
 
     users = OpenStruct.new(
-      register: users.find { |u| u.user_id == register_id },
-      entries: users.select { |u| entries_ids.include?(u.user_id) },
-      comment_users: users.select { |u| comment_user_ids.include?(u.user_id) }
+      register: users.find { |u| u.id == register_id },
+      entries: users.select { |u| entries_ids.include?(u.id) },
+      comment_users: users.select { |u| comment_user_ids.include?(u.id) }
     )
   end
 end

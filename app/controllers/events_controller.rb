@@ -5,21 +5,20 @@ class EventsController < ApplicationController
   before_action :set_paginated_param!, only: %i(entries own search)
 
   def show
-    head :not_found and return if @event.draft? && @event.register_id != current_user.user_id
+    head :not_found and return if @event.draft? && @event.register_id != current_user.id
     @users = @event.users
     @comments = @event.comments.map do |comment|
                   OpenStruct.new(
                     body: comment.body,
                     posted_at: comment.posted_at,
-                    user: @users.comment_users.find { |u| u.user_id == comment.user_id }
+                    user: @users.comment_users.find { |u| u.id == comment.user_id }
                   )
                 end
   end
 
   def create
     event = Event.new(event_params.merge(image: Event::DEFAULT_IMAGE_PATH))
-    event.register_id = current_user.user_id
-    event.tags << Tag.find(tag_params)
+    event.register_id = current_user.id
     if event.valid?
       event.save
       @event = event.decorate
@@ -45,19 +44,18 @@ class EventsController < ApplicationController
   def public
     head :forbidden and return unless @event.publishable?
     @event.published!
-    @event.update(published_at: DateTime.current)
   end
 
   def entry
     head :forbidden and return unless @event.published?
-    @event.entries.create(user_id: current_user.user_id)
+    @event.entries.create(user_id: current_user.id)
     @event.full! if @event.entry_upper_limit && @event.entry_upper_limit <= @event.entries.size
   rescue ActiveRecord::RecordNotUnique
     head :unprocessable_entity
   end
 
   def leave
-    @event.entries.find_by!(user_id: current_user.user_id).destroy
+    @event.entries.find_by!(user_id: current_user.id).destroy
     @event.published! if @event.full? && @event.entry_upper_limit && @event.entry_upper_limit > @event.entries.size
   rescue ActiveRecord::RecordNotFound
     head :forbidden and return
@@ -83,21 +81,27 @@ class EventsController < ApplicationController
   end
 
   def entries
-    events = current_user.entry_events.active.includes(:tags).page(@page).per(@per)
+    events = current_user.entry_events.active.page(@page).per(@per)
     @total_count = events.total_count
     @events = EventDecorator.decorate_collection(events)
   end
 
   def own
-    events = current_user.registered_events.yet.includes(:tags).page(@page).per(@per)
+    events = current_user.registered_events.yet.page(@page).per(@per)
     @total_count = events.total_count
     @events = EventDecorator.decorate_collection(events)
   end
 
   def search
-    events = Search::Event.new(keyword: params[:keyword], started_at: params[:started_at], ended_at: params[:ended_at]).matches.page(@page).per(@per)
-    @total_count = events.total_count
-    @events = EventDecorator.decorate_collection(events)
+    @events = Event.where(status: %i(published full))
+                   .where(Event.arel_table[:started_at].gteq Date.current)
+                   .where.not(register_id: current_user.id)
+                   .keyword_like(params[:keyword])
+                   .order(:started_at)
+                   .page(@page)
+                   .per(@per)
+                   .decorate
+    @total_count = @events.object.total_count
   end
 
   private
@@ -110,15 +114,11 @@ class EventsController < ApplicationController
     params.permit(Event::PERMITTED_ATTRIBUTES)
   end
 
-  def tag_params
-    params.fetch(:tags, {})
-  end
-
   def validate_register!
-    head :forbidden and return unless @event.register_id == current_user.user_id
+    head :forbidden and return unless @event.register_id == current_user.id
   end
 
   def validate_no_register!
-    head :forbidden and return if @event.register_id == current_user.user_id
+    head :forbidden and return if @event.register_id == current_user.id
   end
 end

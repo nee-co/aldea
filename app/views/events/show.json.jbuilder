@@ -1,7 +1,4 @@
-json.event_id @event.id
-json.event_image @event.image_url
-json.extract! @event, *%i(title body published_at started_at ended_at venue entry_upper_limit status)
-json.tags @event.tags.map(&:name)
+json.partial! partial: 'event', locals: { event: @event, extend: true }
 json.register @users.register, partial: 'user', as: :user
 json.entries @users.entries, partial: 'user', as: :user
 
