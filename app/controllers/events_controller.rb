@@ -93,7 +93,7 @@ class EventsController < ApplicationController
   end
 
   def search
-    events = Search::Event.new(keyword: params[:keyword], started_at: params[:started_at], ended_at: params[:ended_at]).matches.page(@page).per(@per)
+    events = Search::Event.new(keyword: params[:keyword]).matches.page(@page).per(@per)
     @total_count = events.total_count
     @events = EventDecorator.decorate_collection(events)
   end

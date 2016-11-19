@@ -42,16 +42,6 @@ class Event < ApplicationRecord
     Event.title_like(word).or(Event.body_like(word))
   }
 
-  scope :started_between, -> started_at {
-    date = started_at.to_date
-    where(Event.arel_table[:started_at].in((date.beginning_of_day)..(date.end_of_day)))
-  }
-
-  scope :ended_between, -> ended_at {
-    date = ended_at.to_date
-    where(Event.arel_table[:ended_at].in((date.beginning_of_day)..(date.end_of_day)))
-  }
-
   scope :yet, -> {
     where.not(status: :closed).or(Event.where(status: :closed).where(Event.arel_table[:ended_at].gteq Date.current))
   }
