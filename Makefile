@@ -16,6 +16,3 @@ volumes:
 
 networks:
 	@docker network create neeco_aldea-cuenta || true
-
-import_default-files: volumes
-	docker run --rm -i -v neeco_public:/work aldea-application ash -c "cd /app/uploads/ && cp -r --parents images/events/default.png /work/"
