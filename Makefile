@@ -15,11 +15,9 @@ migrate:
 	docker-compose run --rm aldea-application bundle exec rails db:migrate
 
 volumes:
-	@docker volume create --name neeco_aldea || true
 	@docker volume create --name neeco_public || true
 
 networks:
-	@docker network create neeco_aldea || true
 	@docker network create neeco_aldea-cuenta || true
 
 import_default-files: volumes

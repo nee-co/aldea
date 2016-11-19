@@ -36,16 +36,14 @@ services:
 
 volumes:
   aldea:
-    external:
-      name: neeco_aldea
+    driver: local
   public:
     external:
       name: neeco_public
 
 networks:
   aldea:
-    external:
-      name: neeco_aldea
+    driver: bridge
   aldea-cuenta:
     external:
       name: neeco_aldea-cuenta
