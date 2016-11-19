@@ -1,5 +1,4 @@
 json.extract! @event, *%i(id title body published_at started_at ended_at venue entry_upper_limit status image)
-json.tags @event.tags.map(&:name)
 json.register @users.register, partial: 'user', as: :user
 json.entries @users.entries, partial: 'user', as: :user
 

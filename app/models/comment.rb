@@ -7,12 +7,13 @@
 #  event_id   :integer          not null
 #  user_id    :integer          not null
 #  posted_at  :datetime         not null
-#  created_at :datetime
-#  updated_at :datetime
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
 #
 # Foreign Keys
 #
 #  comments_event_id_fk  (event_id => events.id)
+#  comments_user_id_fk   (user_id => events.id)
 #
 
 class Comment < ApplicationRecord

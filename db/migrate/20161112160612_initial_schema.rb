@@ -1,10 +1,5 @@
 class InitialSchema < ActiveRecord::Migration[5.0]
   def change
-    create_table "tags", comment: "タグ" do |t|
-      t.string "name", null: false, comment: "タグ名"
-      t.timestamps
-    end
-
     create_table "events", comment: "イベント" do |t|
       t.string "title", null: false, comment: "タイトル"
       t.text "body", comment: "内容"
@@ -37,15 +32,6 @@ class InitialSchema < ActiveRecord::Migration[5.0]
 
       t.index %i(event_id user_id), name: "index_entries_on_event_id_user_id", unique: true
       t.foreign_key :events, column: "event_id", name: "entries_event_id_fk"
-    end
-
-    create_table "events_tags", comment: "イベント-タグ" do |t|
-      t.integer "event_id", null: false, comment: "イベントID"
-      t.integer "tag_id", null: false, comment: "タグID"
-
-      t.index %i(event_id tag_id), name: "index_events_tags_on_event_id_tag_id", unique: true
-      t.foreign_key :tags, column: "tag_id", name: "events_tags_tag_id_fk"
-      t.foreign_key :events, column: "event_id", name: "events_tags_event_id_fk"
     end
   end
 end

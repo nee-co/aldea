@@ -19,7 +19,6 @@ class EventsController < ApplicationController
   def create
     event = Event.new(event_params.merge(image: Event::DEFAULT_IMAGE_PATH))
     event.register_id = current_user.user_id
-    event.tags << Tag.find(tag_params)
     if event.valid?
       event.save
       @event = event.decorate
@@ -83,13 +82,13 @@ class EventsController < ApplicationController
   end
 
   def entries
-    events = current_user.entry_events.active.includes(:tags).page(@page).per(@per)
+    events = current_user.entry_events.active.page(@page).per(@per)
     @total_count = events.total_count
     @events = EventDecorator.decorate_collection(events)
   end
 
   def own
-    events = current_user.registered_events.yet.includes(:tags).page(@page).per(@per)
+    events = current_user.registered_events.yet.page(@page).per(@per)
     @total_count = events.total_count
     @events = EventDecorator.decorate_collection(events)
   end
@@ -108,10 +107,6 @@ class EventsController < ApplicationController
 
   def event_params
     params.permit(Event::PERMITTED_ATTRIBUTES)
-  end
-
-  def tag_params
-    params.fetch(:tags, {})
   end
 
   def validate_register!

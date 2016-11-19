@@ -33,8 +33,3 @@ CSV.foreach('db/seeds/development/entries.csv') do |list|
     user_id: list[1].to_i
   )
 end
-
-# Create Events_tags
-CSV.foreach('db/seeds/development/events_tags.csv') do |list|
-  Event.find(list[0]).tags << Tag.find(list[1])
-end
