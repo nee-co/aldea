@@ -1,6 +1,6 @@
 REVISION=`git rev-parse HEAD`
 
-.PHONY: image db app migrate volumes networks import_default-files
+.PHONY: image db app volumes networks import_default-files
 
 image:
 	docker build --tag aldea-application --build-arg REVISION=$(REVISION) .
@@ -10,9 +10,6 @@ db:
 
 app:
 	docker-compose run -p 3000:3000 aldea-application ash
-
-migrate:
-	docker-compose run --rm aldea-application bundle exec rails db:migrate
 
 volumes:
 	@docker volume create --name neeco_public || true
