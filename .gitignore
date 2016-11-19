@@ -20,8 +20,6 @@
 .DS_Store
 .vagrant
 
-.env
-
 /uploads/*
 !/uploads/images/
 /uploads/images/*

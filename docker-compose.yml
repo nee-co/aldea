@@ -5,9 +5,7 @@ services:
     command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci
     environment:
       MYSQL_DATABASE: aldea_development
-      MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
-      MYSQL_USER: $ALDEA_DATABASE_USER
-      MYSQL_PASSWORD: $ALDEA_DATABASE_PASSWORD
+      MYSQL_ROOT_PASSWORD: root
     volumes:
       - aldea:/var/lib/mysql
     networks:
@@ -17,11 +15,11 @@ services:
     environment:
       ALDEA_PORT: 3000
       ALDEA_DATABASE_HOST: aldea-database
-      ALDEA_DATABASE_USER:
-      ALDEA_DATABASE_PASSWORD:
-      ALDEA_SECRET_KEY_BASE:
+      ALDEA_DATABASE_USER: root
+      ALDEA_DATABASE_PASSWORD: root
+      ALDEA_SECRET_KEY_BASE: x
       CUENTA_URL: http://cuenta-application:4000
-      STATIC_URL:
+      STATIC_URL: http://localhost
       RAILS_ENV: development
     depends_on:
       - aldea-database
