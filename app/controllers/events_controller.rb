@@ -44,7 +44,6 @@ class EventsController < ApplicationController
   def public
     head :forbidden and return unless @event.publishable?
     @event.published!
-    @event.update(published_at: DateTime.current)
   end
 
   def entry

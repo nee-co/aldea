@@ -6,7 +6,6 @@ CSV.foreach('db/seeds/development/events.csv') do |list|
     title: list[0],
     body: list[1],
     register_id: list[2].to_i,
-    published_at: list[3],
     started_at: list[4],
     ended_at: list[5],
     venue: list[6],

@@ -6,7 +6,6 @@
 #  title             :string(255)      not null
 #  body              :text(65535)
 #  register_id       :integer          not null
-#  published_at      :datetime
 #  started_at        :datetime
 #  ended_at          :datetime
 #  venue             :string(255)

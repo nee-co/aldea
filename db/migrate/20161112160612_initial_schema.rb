@@ -4,7 +4,6 @@ class InitialSchema < ActiveRecord::Migration[5.0]
       t.string "title", null: false, comment: "タイトル"
       t.text "body", comment: "内容"
       t.integer "register_id", null: false, comment: "登録ユーザーID"
-      t.timestamp "published_at", null: true, comment: "公開日時"
       t.timestamp "started_at", null: true, comment: "開始日時"
       t.timestamp "ended_at", null: true, comment: "終了日時"
       t.string "venue", null: true, comment: "会場"
