@@ -9,7 +9,7 @@ db:
 	docker-compose up -d aldea-database
 
 app:
-	docker-compose up -d aldea-application
+	docker-compose run -p 3000:3000 aldea-application ash
 
 migrate:
 	docker-compose run --rm aldea-application bundle exec rails db:migrate
