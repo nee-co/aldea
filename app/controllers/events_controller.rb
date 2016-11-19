@@ -5,20 +5,20 @@ class EventsController < ApplicationController
   before_action :set_paginated_param!, only: %i(entries own search)
 
   def show
-    head :not_found and return if @event.draft? && @event.register_id != current_user.user_id
+    head :not_found and return if @event.draft? && @event.register_id != current_user.id
     @users = @event.users
     @comments = @event.comments.map do |comment|
                   OpenStruct.new(
                     body: comment.body,
                     posted_at: comment.posted_at,
-                    user: @users.comment_users.find { |u| u.user_id == comment.user_id }
+                    user: @users.comment_users.find { |u| u.id == comment.user_id }
                   )
                 end
   end
 
   def create
     event = Event.new(event_params.merge(image: Event::DEFAULT_IMAGE_PATH))
-    event.register_id = current_user.user_id
+    event.register_id = current_user.id
     if event.valid?
       event.save
       @event = event.decorate
@@ -48,14 +48,14 @@ class EventsController < ApplicationController
 
   def entry
     head :forbidden and return unless @event.published?
-    @event.entries.create(user_id: current_user.user_id)
+    @event.entries.create(user_id: current_user.id)
     @event.full! if @event.entry_upper_limit && @event.entry_upper_limit <= @event.entries.size
   rescue ActiveRecord::RecordNotUnique
     head :unprocessable_entity
   end
 
   def leave
-    @event.entries.find_by!(user_id: current_user.user_id).destroy
+    @event.entries.find_by!(user_id: current_user.id).destroy
     @event.published! if @event.full? && @event.entry_upper_limit && @event.entry_upper_limit > @event.entries.size
   rescue ActiveRecord::RecordNotFound
     head :forbidden and return
@@ -109,10 +109,10 @@ class EventsController < ApplicationController
   end
 
   def validate_register!
-    head :forbidden and return unless @event.register_id == current_user.user_id
+    head :forbidden and return unless @event.register_id == current_user.id
   end
 
   def validate_no_register!
-    head :forbidden and return if @event.register_id == current_user.user_id
+    head :forbidden and return if @event.register_id == current_user.id
   end
 end

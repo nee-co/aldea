@@ -1,4 +1,4 @@
-json.extract! user, *%i(name number user_image note)
+json.extract! user, *%i(id name number image note)
 
 json.college do
   json.name user.college.name

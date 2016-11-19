@@ -75,9 +75,9 @@ class Event < ApplicationRecord
     users = Cuenta::User.list(user_ids: user_ids).users
 
     users = OpenStruct.new(
-      register: users.find { |u| u.user_id == register_id },
-      entries: users.select { |u| entries_ids.include?(u.user_id) },
-      comment_users: users.select { |u| comment_user_ids.include?(u.user_id) }
+      register: users.find { |u| u.id == register_id },
+      entries: users.select { |u| entries_ids.include?(u.id) },
+      comment_users: users.select { |u| comment_user_ids.include?(u.id) }
     )
   end
 end

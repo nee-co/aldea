@@ -5,7 +5,7 @@ class CommentsController < ApplicationController
     head :forbidden and return if @event.draft?
     comment = @event.comments.build(
       body: params[:body],
-      user_id: current_user.user_id,
+      user_id: current_user.id,
       posted_at: DateTime.current
     )
     if comment.valid?
