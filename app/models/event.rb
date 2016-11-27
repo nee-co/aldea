@@ -44,11 +44,11 @@ class Event < ApplicationRecord
   }
 
   scope :yet, -> {
-    where.not(status: :closed).or(Event.where(status: :closed).where(Event.arel_table[:ended_at].gteq Date.current))
+    where.not(status: :closed).or(Event.where(status: :closed).where(Event.arel_table[:ended_at].gteq(Date.current)))
   }
 
   scope :active, -> {
-    where(status: %i(published full)).or(Event.closed.where(Event.arel_table[:started_at].gteq Date.current))
+    where(status: %i(published full)).or(Event.closed.where(Event.arel_table[:started_at].gteq(Date.current)))
   }
 
   scope :entries_by_user, -> (user_id) {
@@ -65,7 +65,7 @@ class Event < ApplicationRecord
     user_ids = [register_id, entries_ids, comment_user_ids].flatten.uniq
     users = Cuenta::User.list(user_ids: user_ids).users
 
-    users = OpenStruct.new(
+    OpenStruct.new(
       register: users.find { |u| u.id == register_id },
       entries: users.select { |u| entries_ids.include?(u.id) },
       comment_users: users.select { |u| comment_user_ids.include?(u.id) }

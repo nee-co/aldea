@@ -7,13 +7,7 @@ class EventsController < ApplicationController
   def show
     head :not_found and return if @event.draft? && @event.register_id != current_user.id
     @users = @event.users
-    @comments = @event.comments.map do |comment|
-      OpenStruct.new(
-        body: comment.body,
-        posted_at: comment.posted_at,
-        user: @users.comment_users.find { |u| u.id == comment.user_id }
-      )
-    end
+    @comments = fetch_comments
   end
 
   def create
@@ -94,7 +88,7 @@ class EventsController < ApplicationController
 
   def search
     @events = Event.where(status: %i(published full))
-                   .where(Event.arel_table[:started_at].gteq Date.current)
+                   .where(Event.arel_table[:started_at].gteq(Date.current))
                    .where.not(register_id: current_user.id)
                    .keyword_like(params[:keyword])
                    .order(:started_at)
@@ -108,6 +102,16 @@ class EventsController < ApplicationController
 
   def set_event
     @event = Event.find(params[:id]).decorate
+  end
+
+  def fetch_comments
+    @event.comments.map do |comment|
+      OpenStruct.new(
+        body: comment.body,
+        posted_at: comment.posted_at,
+        user: @users.comment_users.find { |u| u.id == comment.user_id }
+      )
+    end
   end
 
   def event_params
