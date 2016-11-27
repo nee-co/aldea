@@ -8,12 +8,12 @@ class EventsController < ApplicationController
     head :not_found and return if @event.draft? && @event.register_id != current_user.id
     @users = @event.users
     @comments = @event.comments.map do |comment|
-                  OpenStruct.new(
-                    body: comment.body,
-                    posted_at: comment.posted_at,
-                    user: @users.comment_users.find { |u| u.id == comment.user_id }
-                  )
-                end
+      OpenStruct.new(
+        body: comment.body,
+        posted_at: comment.posted_at,
+        user: @users.comment_users.find { |u| u.id == comment.user_id }
+      )
+    end
   end
 
   def create
@@ -62,7 +62,7 @@ class EventsController < ApplicationController
   end
 
   def close
-    head :forbidden and return unless (@event.published? || @event.full?)
+    head :forbidden and return unless @event.published? || @event.full?
     @event.closed!
   end
 

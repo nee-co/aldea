@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # == Schema Information
 #
 # Table name: events
@@ -22,7 +23,7 @@ class Event < ApplicationRecord
   PERMITTED_ATTRIBUTES = %i(title body venue started_at ended_at entry_upper_limit).freeze
   PUBLIC_REQUIRED_ATTRIBUTES = %i(title body venue started_at ended_at).freeze
 
-  DEFAULT_IMAGE_PATH = "images/events/default.png"
+  DEFAULT_IMAGE_PATH = 'images/events/default.png'.freeze
   ALLOW_IMAGE_EXTNAMES = %w(png jpg jpeg gif).freeze
 
   has_many :comments, dependent: :delete_all
@@ -30,15 +31,15 @@ class Event < ApplicationRecord
 
   validates :title, presence: true
 
-  scope :title_like, -> word {
+  scope :title_like, -> (word) {
     where(Event.arel_table[:title].matches("%#{word}%"))
   }
 
-  scope :body_like, -> word {
+  scope :body_like, -> (word) {
     where(Event.arel_table[:body].matches("%#{word}%"))
   }
 
-  scope :keyword_like, -> word {
+  scope :keyword_like, -> (word) {
     Event.title_like(word).or(Event.body_like(word))
   }
 
@@ -50,12 +51,12 @@ class Event < ApplicationRecord
     where(status: %i(published full)).or(Event.closed.where(Event.arel_table[:started_at].gteq Date.current))
   }
 
-  scope :entries_by_user, -> user_id {
+  scope :entries_by_user, -> (user_id) {
     joins(:entries).merge(Entry.where(user_id: user_id))
   }
 
   def publishable?
-    self.draft? && Event::PUBLIC_REQUIRED_ATTRIBUTES.all?(&self.method(:send))
+    draft? && Event::PUBLIC_REQUIRED_ATTRIBUTES.all?(&method(:send))
   end
 
   def users
