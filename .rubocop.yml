@@ -3,7 +3,6 @@ AllCops:
   Exclude:
     - Vagrantfile
     - db/schema.rb
-    - db/schema/schema.rb
     - config/**/*
     - lib/task/*.rake
     - vender/gems/**/*
@@ -20,6 +19,17 @@ Style/AsciiComments:
 
 # Document classes and non-namespace modules.
 Style/Documentation:
+  Enabled: false
+
+# Use &&/|| instead of and/or.
+Style/AndOr:
+  Enabled: false
+
+# Use the lambda method for multi-line lambdas.
+Style/Lambda:
+  Enabled: false
+
+Style/ClassAndModuleChildren:
   Enabled: false
 
 # Limit lines to 79 characters.
