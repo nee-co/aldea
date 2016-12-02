@@ -71,4 +71,8 @@ class Event < ApplicationRecord
       comment_users: users.select { |u| comment_user_ids.include?(u.id) }
     )
   end
+
+  def self.default_image
+    File.open(Rails.root.join('files/default.png'))
+  end
 end
