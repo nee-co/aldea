@@ -18,26 +18,24 @@ services:
       ALDEA_DATABASE_USER: root
       ALDEA_DATABASE_PASSWORD: root
       ALDEA_SECRET_KEY_BASE: x
-      CUENTA_URL: http://cuenta-application:4000
-      STATIC_URL: http://localhost
+      CUENTA_URL: http://cuenta-application:4000/
+      IMAGEN_URL: http://imagen-application:8000/
+      STATIC_URL: http://localhost/
       RAILS_ENV: development
     depends_on:
       - aldea-database
     ports:
       - "3000:3000"
     volumes:
-      - public:/app/uploads
       - .:/app
     networks:
       - aldea
       - aldea-cuenta
+      - aldea-imagen
 
 volumes:
   aldea:
     driver: local
-  public:
-    external:
-      name: neeco_public
 
 networks:
   aldea:
@@ -45,3 +43,6 @@ networks:
   aldea-cuenta:
     external:
       name: neeco_aldea-cuenta
+  aldea-imagen:
+    external:
+      name: neeco_aldea-imagen
