@@ -18,8 +18,8 @@ module Cuenta
       Event.entries_by_user(id)
     end
 
-    def registered_events
-      Event.where(register_id: id)
+    def owned_events
+      Event.where(owner_id: id)
     end
   end
 end
