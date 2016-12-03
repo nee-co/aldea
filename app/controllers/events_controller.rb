@@ -11,10 +11,8 @@ class EventsController < ApplicationController
   end
 
   def create
-    event = Event.new(event_params.merge(image: Event::DEFAULT_IMAGE_PATH))
-    event.register_id = current_user.id
-    if event.valid?
-      event.save
+    event = Event.new(event_params.merge(register_id: current_user.id))
+    if event.save
       @event = event.decorate
       render status: :created
     else
@@ -60,20 +58,6 @@ class EventsController < ApplicationController
     @event.closed!
   end
 
-  def image
-    file = params.require(:image)
-    extname = File.extname(file.original_filename)
-    @event.image = File.join('images', 'events', SecureRandom.uuid + extname)
-
-    if @event.valid? && extname[1..-1].in?(Event::ALLOW_IMAGE_EXTNAMES)
-      File.open(upload_path(@event.image), 'wb') { |f| f.write(file.read) }
-      FileUtils.safe_unlink(upload_path(@event.image_was)) unless @event.image_was == Event::DEFAULT_IMAGE_PATH
-      @event.save
-    else
-      head :forbidden and return
-    end
-  end
-
   def entries
     events = current_user.entry_events.active.page(@page).per(@per)
     @total_count = events.total_count
@@ -115,7 +99,7 @@ class EventsController < ApplicationController
   end
 
   def event_params
-    params.permit(Event::PERMITTED_ATTRIBUTES)
+    params.permit(Event::PERMITTED_ATTRIBUTES).merge(upload_image: params.fetch(:image, {}))
   end
 
   def validate_register!

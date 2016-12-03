@@ -23,13 +23,16 @@ class Event < ApplicationRecord
   PERMITTED_ATTRIBUTES = %i(title body venue started_at ended_at entry_upper_limit).freeze
   PUBLIC_REQUIRED_ATTRIBUTES = %i(title body venue started_at ended_at).freeze
 
-  DEFAULT_IMAGE_PATH = 'images/events/default.png'.freeze
-  ALLOW_IMAGE_EXTNAMES = %w(png jpg jpeg gif).freeze
+  attr_accessor :upload_image
 
   has_many :comments, dependent: :delete_all
   has_many :entries, dependent: :delete_all
 
   validates :title, presence: true
+  validate :validate_upload_image, if: -> { errors.empty? && upload_image.present? }
+
+  before_save :set_default_image, if: -> { image.nil? }
+  after_destroy :remove_image
 
   scope :title_like, -> (word) {
     where(Event.arel_table[:title].matches("%#{word}%"))
@@ -74,5 +77,19 @@ class Event < ApplicationRecord
 
   def self.default_image
     File.open(Rails.root.join('files/default.png'))
+  end
+
+  private
+
+  def validate_upload_image
+    errors.add(:image) unless self.image = Imagen::Image.upload(upload_image, image_was).presence
+  end
+
+  def set_default_image
+    self.image = Imagen::Image.upload(self.class.default_image)
+  end
+
+  def remove_image
+    Imagen::Image.delete(image_name: image)
   end
 end
