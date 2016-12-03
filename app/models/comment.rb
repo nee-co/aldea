@@ -13,7 +13,6 @@
 # Foreign Keys
 #
 #  comments_event_id_fk  (event_id => events.id)
-#  comments_user_id_fk   (user_id => events.id)
 #
 
 class Comment < ApplicationRecord

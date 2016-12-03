@@ -3,18 +3,15 @@
 #
 # Table name: events
 #
-#  id                :integer          not null, primary key
-#  title             :string(255)      not null
-#  body              :text(65535)
-#  register_id       :integer          not null
-#  started_at        :datetime
-#  ended_at          :datetime
-#  venue             :string(255)
-#  entry_upper_limit :integer
-#  status            :integer          default("draft"), not null
-#  image             :string(255)
-#  created_at        :datetime         not null
-#  updated_at        :datetime         not null
+#  id         :integer          not null, primary key
+#  title      :string(255)      not null
+#  body       :text(65535)      not null
+#  owner_id   :integer          not null
+#  start_date :date             not null
+#  is_public  :boolean          default(FALSE), not null
+#  image      :string(255)      not null
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
 #
 
 class Event < ApplicationRecord
