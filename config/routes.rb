@@ -8,10 +8,9 @@ Rails.application.routes.draw do
     end
     member do
       put :public
+      put :private
       put :entry
       delete :entry, action: :leave
-      put :close
-      put :image
       resources :comments, only: %i(create)
     end
   end

@@ -1,5 +1,5 @@
 json.partial! partial: 'event', locals: { event: @event, extend: true }
-json.register @users.register, partial: 'user', as: :user
+json.owner @users.owner, partial: 'user', as: :user
 json.entries @users.entries, partial: 'user', as: :user
 
 json.comments(@comments) do |comment|

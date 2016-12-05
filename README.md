@@ -105,6 +105,3 @@ vagrant> RAILS_ENV=development bundle exec rails server
 
 * ネットワーク作成
     + `make networks`
-
-* ボリューム作成
-    + `make volumes`

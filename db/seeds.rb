@@ -1,4 +1,4 @@
-Dir.glob(Rails.root.join("db/seeds/master/*.rb")).sort.each do |path|
+Dir.glob(Rails.root.join('db/seeds/master/*.rb')).sort.each do |path|
   load path
 end
 
