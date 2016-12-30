@@ -1,8 +1,8 @@
 Rails.application.routes.draw do
   resources :events, { format: 'json', except: %i(index) } do
     collection do
-      get :entries
-      get :own
+      get :entries, controller: :tray
+      get :own, controller: :tray
       get "", action: :search
       get :search
     end

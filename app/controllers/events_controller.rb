@@ -2,7 +2,7 @@ class EventsController < ApplicationController
   before_action :set_event, only: %i(show update public private entry leave destroy image)
   before_action :validate_owner!, only: %i(update destroy public private)
   before_action :validate_no_owner!, only: %i(entry leave)
-  before_action :set_paginated_param!, only: %i(entries own search)
+  before_action :set_paginated_param!, only: :search
 
   def show
     head :not_found and return if !@event.is_public && !@event.owner?(current_user) && !@event.entry?(current_user)
@@ -54,16 +54,6 @@ class EventsController < ApplicationController
     @event.entries.find_by!(user_id: current_user.id).destroy
   rescue ActiveRecord::RecordNotFound
     head :not_found and return
-  end
-
-  def entries
-    @events = current_user.entry_events.yet.page(@page).per(@per).decorate
-    @total_count = @events.object.total_count
-  end
-
-  def own
-    @events = current_user.owned_events.yet.page(@page).per(@per).decorate
-    @total_count = @events.object.total_count
   end
 
   def search
