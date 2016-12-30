@@ -1,5 +1,5 @@
 class EventsController < ApplicationController
-  before_action :set_event, only: %i(show update public private entry leave destroy image)
+  before_action :set_event, only: %i(show update public private entry leave destroy)
   before_action :validate_owner!, only: %i(update destroy public private)
   before_action :validate_no_owner!, only: %i(entry leave)
   before_action :set_paginated_param!, only: :search

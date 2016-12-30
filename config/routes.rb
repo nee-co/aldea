@@ -3,7 +3,6 @@ Rails.application.routes.draw do
     collection do
       get :entries, controller: :tray
       get :own, controller: :tray
-      get "", action: :search
       get :search
     end
     member do
