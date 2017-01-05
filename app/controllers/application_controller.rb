@@ -26,7 +26,7 @@ class ApplicationController < ActionController::API
 
   def set_limit_offset_param!
     head :unprocessable_entity unless %i(limit offset).all?(&params.method(:include?))
-    @limmit = params[:limit].to_i
+    @limit = params[:limit].to_i
     @offset = params[:offset].to_i
   end
 end
