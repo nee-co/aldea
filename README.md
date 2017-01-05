@@ -4,7 +4,7 @@
 |:-------------------:|:-------------------------:|
 |          OS         |         CentOS (7.2)      |
 |       使用言語      |         Ruby (2.3.1)      |
-|  使用フレームワーク |    Ruby on Rails (5.0.0)  |
+|  使用フレームワーク |    Ruby on Rails (5.0.1)  |
 |    バージョン管理   |             Git           |
 |    Gitホスティング  |          Bitbucket        |
 
@@ -99,9 +99,6 @@ vagrant> RAILS_ENV=development bundle exec rails server
     * 作業途中のPRはPRタイトルに `[WIP]` をつける
 
 ### Docker Task
-
-* イメージ作成
-    + `make image`
 
 * ネットワーク作成
     + `make networks`
