@@ -1,4 +1,4 @@
-.PHONY: db app networks
+.PHONY: db app network
 
 db:
 	docker-compose up -d aldea-database
@@ -6,6 +6,6 @@ db:
 app:
 	docker-compose run -p 3000:3000 aldea-application ash
 
-networks:
-	@docker network create neeco_aldea-cuenta || true
-	@docker network create neeco_aldea-imagen || true
+network:
+	@docker network create neeco_develop || true
+

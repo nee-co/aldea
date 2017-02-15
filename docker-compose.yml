@@ -9,7 +9,7 @@ services:
     volumes:
       - aldea:/var/lib/mysql
     networks:
-      - aldea
+      - neeco
   aldea-application:
     image: registry.neec.xyz/dev/aldea-application:latest
     environment:
@@ -29,20 +29,13 @@ services:
     volumes:
       - .:/app
     networks:
-      - aldea
-      - aldea-cuenta
-      - aldea-imagen
+      - neeco
 
 volumes:
   aldea:
     driver: local
 
 networks:
-  aldea:
-    driver: bridge
-  aldea-cuenta:
+  neeco:
     external:
-      name: neeco_aldea-cuenta
-  aldea-imagen:
-    external:
-      name: neeco_aldea-imagen
+      name: neeco_develop

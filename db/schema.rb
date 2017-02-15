@@ -12,7 +12,7 @@
 
 ActiveRecord::Schema.define(version: 20161112160612) do
 
-  create_table "comments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", comment: "コメント" do |t|
+  create_table "comments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", comment: "コメント" do |t|
     t.text     "body",       limit: 65535, null: false, comment: "コメント内容"
     t.integer  "event_id",                 null: false, comment: "イベントID"
     t.integer  "user_id",                  null: false, comment: "ユーザID"
@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(version: 20161112160612) do
     t.index ["event_id"], name: "index_comments_on_event_id", using: :btree
   end
 
-  create_table "entries", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", comment: "参加" do |t|
+  create_table "entries", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", comment: "参加" do |t|
     t.integer  "event_id",   null: false, comment: "イベントID"
     t.integer  "user_id",    null: false, comment: "ユーザID"
     t.datetime "created_at", null: false
@@ -31,7 +31,7 @@ ActiveRecord::Schema.define(version: 20161112160612) do
     t.index ["event_id"], name: "index_entries_on_event_id", using: :btree
   end
 
-  create_table "events", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", comment: "イベント" do |t|
+  create_table "events", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", comment: "イベント" do |t|
     t.string   "title",                                    null: false, comment: "タイトル"
     t.text     "body",       limit: 65535,                 null: false, comment: "内容"
     t.integer  "owner_id",                                 null: false, comment: "登録ユーザーID"
