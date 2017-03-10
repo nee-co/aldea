@@ -60,6 +60,7 @@ class EventsController < ApplicationController
     @events = Event.public_events.yet
                    .where.not(owner_id: current_user.id)
                    .not_entries_by_user(current_user.id)
+                   .group(:id)
                    .keyword_like(params[:keyword])
                    .order(:start_date)
                    .page(@page)
